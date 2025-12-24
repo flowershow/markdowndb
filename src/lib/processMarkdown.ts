@@ -1,21 +1,18 @@
 /**
- * Re-exports parseFile as processMarkdown for the public API.
+ * Public API for processing individual markdown files or strings.
  * 
- * This module provides a stable public API for processing individual markdown
- * files or strings. It re-exports the existing parseFile function from parseFile.ts
- * with enhanced documentation for end-users.
- * 
- * The parseFile function is the core markdown processing logic already used by
- * processFile in process.ts, but exposed here for direct use in scenarios where
- * file system operations and database storage are not needed (e.g., Cloudflare Workers).
+ * This module provides a stable public API that reuses the core markdown
+ * processing logic from process.ts. The processMarkdown function uses the
+ * same processMarkdownContent function that processFile uses internally,
+ * but without the file system dependencies.
  */
-import { parseFile, ParsingOptions, WikiLink } from "./parseFile.js";
+import { processMarkdownContent } from "./process.js";
+import { ParsingOptions, WikiLink } from "./parseFile.js";
 import { Root } from "remark-parse/lib/index.js";
 import { MetaData, Task } from "./schema.js";
 
 /**
  * Result of processing a markdown file or string.
- * This is the return type of processMarkdown and parseFile.
  */
 export interface MarkdownProcessorResult {
   /**
@@ -52,9 +49,9 @@ export type MarkdownProcessorOptions = ParsingOptions;
  * - **API endpoints** - Parse markdown in HTTP handlers
  * - **Stream processing** - Process markdown from streams/buffers
  * 
- * **Implementation**: This function uses the same core logic as `processFile` in
- * process.ts (which is used by indexFolder), but exposed directly for single-file
- * processing. Both functions internally call `parseFile` from parseFile.ts.
+ * **Implementation**: This function reuses `processMarkdownContent` from process.ts,
+ * which is the same core logic used by `processFile`. This ensures consistency
+ * between file-based and string-based markdown processing.
  * 
  * **Note**: This function processes markdown in isolation and does NOT:
  * - Compute backlinks (requires knowledge of other files)
@@ -101,10 +98,18 @@ export function processMarkdown(
   source: string,
   options?: MarkdownProcessorOptions
 ): MarkdownProcessorResult {
-  // Use the existing parseFile function that's already used by processFile
-  const result = parseFile(source, options);
+  // Use the shared processing function from process.ts
+  // No computed fields needed for standalone processing
+  const { ast, fileInfo } = processMarkdownContent(source, options);
   
-  // parseFile always sets tags and tasks in metadata
-  // This type assertion is safe because parseFile guarantees these properties exist
-  return result as MarkdownProcessorResult;
+  // Return with proper typing - merge tags and tasks into metadata
+  return {
+    ast,
+    metadata: {
+      ...fileInfo.metadata,
+      tags: fileInfo.tags,
+      tasks: fileInfo.tasks,
+    },
+    links: fileInfo.links,
+  } as MarkdownProcessorResult;
 }

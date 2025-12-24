@@ -3,13 +3,70 @@ import fs from "fs";
 import path from "path";
 
 import { File, Task } from "./schema.js";
-import { WikiLink, parseFile } from "./parseFile.js";
+import { WikiLink, parseFile, ParsingOptions } from "./parseFile.js";
 import { Root } from "remark-parse/lib/index.js";
 
 export interface FileInfo extends File {
   tags: string[];
   links: WikiLink[];
   tasks: Task[];
+}
+
+/**
+ * Core function to process markdown content from a source string.
+ * This is used by both processFile (for file-based processing) and 
+ * processMarkdown (for string-based processing).
+ * 
+ * @param source - The markdown content as a string
+ * @param options - Parsing options to pass to parseFile
+ * @param fileInfo - Optional FileInfo object to populate (for processFile)
+ * @param computedFields - Optional array of functions to compute additional fields
+ * @returns Object containing ast, metadata, links, tags, and tasks
+ */
+export function processMarkdownContent(
+  source: string,
+  options?: ParsingOptions,
+  fileInfo?: FileInfo,
+  computedFields?: ((fileInfo: FileInfo, ast: Root) => any)[]
+) {
+  const { ast, metadata, links } = parseFile(source, options);
+
+  const filetype = metadata?.type || null;
+  const tags = metadata?.tags || [];
+  const tasks = metadata?.tasks || [];
+
+  // Use provided fileInfo or create a minimal one
+  const info: FileInfo = fileInfo || {
+    _id: "",
+    file_path: "",
+    extension: "",
+    url_path: null,
+    filetype: null,
+    metadata: {},
+    tags: [],
+    links: [],
+    tasks: [],
+  };
+
+  // Update the fileInfo with parsed data
+  info.metadata = metadata;
+  info.links = links;
+  info.filetype = filetype;
+  info.tags = tags;
+  info.tasks = tasks;
+
+  // Apply computed fields if provided
+  if (computedFields) {
+    for (let index = 0; index < computedFields.length; index++) {
+      const customFieldFunction = computedFields[index];
+      customFieldFunction(info, ast);
+    }
+  }
+
+  return {
+    ast,
+    fileInfo: info,
+  };
 }
 
 // this file is an extraction of the file info parsing from markdowndb.ts without any sql stuff
@@ -50,31 +107,23 @@ export function processFile(
     return fileInfo;
   }
 
-  // metadata, tags, links
+  // Read file content
   const source: string = fs.readFileSync(filePath, {
     encoding: "utf8",
     flag: "r",
   });
 
-  const { ast, metadata, links } = parseFile(source, {
-    from: relativePath,
-    permalinks: filePathsToIndex,
-  });
+  // Use the shared processing function, passing the fileInfo to be populated
+  processMarkdownContent(
+    source,
+    {
+      from: relativePath,
+      permalinks: filePathsToIndex,
+    },
+    fileInfo,
+    computedFields
+  );
 
-  fileInfo.metadata = metadata;
-  fileInfo.links = links;
-
-  const filetype = metadata?.type || null;
-  fileInfo.filetype = filetype;
-
-  const tags = metadata?.tags || [];
-  fileInfo.tags = tags;
-  for (let index = 0; index < computedFields.length; index++) {
-    const customFieldFunction = computedFields[index];
-    customFieldFunction(fileInfo, ast);
-  }
-
-  fileInfo.tasks = metadata?.tasks || [];
-
+  // fileInfo has been updated in place by processMarkdownContent
   return fileInfo;
 }
