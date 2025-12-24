@@ -58,8 +58,8 @@
     "zod": "^3.22.4"
   },
   "peerDependencies": {
-    "mysql2": ">=2.0.0",
-    "pg": ">=8.0.0"
+    "mysql2": "^2.0.0 || ^3.0.0",
+    "pg": "^8.0.0"
   },
   "peerDependenciesMeta": {
     "mysql2": {
