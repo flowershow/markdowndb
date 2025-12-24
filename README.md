@@ -238,6 +238,63 @@ export const getStaticProps = async () => {
 
 ## API reference
 
+### Processing Individual Files
+
+**Process a single markdown file or string:**
+
+You can now process individual markdown files without needing to index an entire folder or create a database. This is ideal for serverless environments like Cloudflare Workers, edge functions, or any scenario where you want to process markdown content in isolation.
+
+```ts
+import { processMarkdown } from 'mddb';
+
+const markdown = `---
+title: My Blog Post
+tags: [javascript, tutorial]
+---
+
+# Hello World
+
+This is a [[wiki-link]] and a [regular link](./other.md).
+
+- [ ] This is a task
+`;
+
+const result = processMarkdown(markdown);
+console.log(result.metadata.title); // "My Blog Post"
+console.log(result.metadata.tags); // ["javascript", "tutorial"]
+console.log(result.links); // Array of link objects
+console.log(result.metadata.tasks); // Array of task objects
+```
+
+**With options:**
+
+```ts
+const result = processMarkdown(markdown, {
+  from: "blog/post.md", // Source file path for resolving relative links
+  remarkPlugins: [myCustomPlugin], // Custom remark plugins
+});
+```
+
+**What it returns:**
+
+The `processMarkdown` function returns an object with:
+- `ast`: The abstract syntax tree (AST) of the markdown content
+- `metadata`: Extracted frontmatter metadata, including:
+  - `tags`: Array of tags from frontmatter and body (e.g., `#tag`)
+  - `tasks`: Array of task objects from checklist items
+  - All other frontmatter fields
+- `links`: Array of links found in the markdown (wiki-style links, regular links, images)
+
+**Important notes:**
+
+Since `processMarkdown` processes files in isolation, it does NOT:
+- Compute backlinks (requires knowledge of other files)
+- Resolve Obsidian-style shortest path links (requires folder context)
+- Store results in a database
+- Perform any file system operations
+
+This makes it perfect for streaming content processing, API endpoints, or serverless functions where you need to process markdown on-the-fly.
+
 ### Queries
 
 **Retrieve a file by URL path:**
