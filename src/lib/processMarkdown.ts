@@ -26,7 +26,7 @@ export interface MarkdownProcessorResult {
 /**
  * Options for processing markdown content.
  */
-export interface MarkdownProcessorOptions extends ParsingOptions {}
+export type MarkdownProcessorOptions = ParsingOptions;
 
 /**
  * Process a single markdown file or string and extract structured data.
