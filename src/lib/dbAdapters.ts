@@ -136,6 +136,14 @@ export function addJsonFieldLikeQuery(
   path: string,
   pattern: string
 ): void {
+  const normalizedClient = client.toLowerCase();
   const jsonExtract = getJsonExtractSyntax(client, column, path);
-  builder.whereRaw(`${jsonExtract} LIKE ?`, [pattern]);
+  
+  // Use ILIKE for PostgreSQL for case-insensitive matching, consistent with addLikeQuery
+  const likeOperator = 
+    (normalizedClient === "pg" || normalizedClient === "postgres" || normalizedClient === "postgresql")
+      ? "ILIKE"
+      : "LIKE";
+  
+  builder.whereRaw(`${jsonExtract} ${likeOperator} ?`, [pattern]);
 }
