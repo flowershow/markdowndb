@@ -11,11 +11,13 @@ export interface MarkdownProcessorResult {
    */
   ast: Root;
   /**
-   * Metadata extracted from frontmatter and body (includes tags and tasks).
+   * Metadata extracted from frontmatter and body.
+   * Always includes `tags` (array of strings from frontmatter and body)
+   * and `tasks` (array of task objects from checklist items).
    */
   metadata: MetaData & {
-    tags?: string[];
-    tasks?: Task[];
+    tags: string[];
+    tasks: Task[];
   };
   /**
    * Links found in the markdown content (wiki-style links, regular links, images).
@@ -42,6 +44,10 @@ export type MarkdownProcessorOptions = ParsingOptions;
  * - Compute backlinks (requires knowledge of other files)
  * - Resolve Obsidian-style shortest path links (requires folder context)
  * - Store results in a database
+ * 
+ * **Why this wrapper exists**: While this function internally uses `parseFile`,
+ * it serves as the stable public API with comprehensive documentation for
+ * end-users. This allows internal refactoring without breaking the public API.
  * 
  * @param source - The markdown content as a string
  * @param options - Optional configuration for parsing
@@ -82,5 +88,9 @@ export function processMarkdown(
   source: string,
   options?: MarkdownProcessorOptions
 ): MarkdownProcessorResult {
-  return parseFile(source, options);
+  const result = parseFile(source, options);
+  
+  // parseFile always sets tags and tasks in metadata
+  // This type assertion is safe because parseFile guarantees these properties exist
+  return result as MarkdownProcessorResult;
 }
