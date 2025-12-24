@@ -62,6 +62,13 @@ Use the npm `mddb` package to index Markdown files into an SQLite database. This
 npx mddb ./blog
 ```
 
+You can also index multiple directories at once:
+
+```bash
+# Index multiple directories into a single database
+npx mddb ./blog ./docs ./notes
+```
+
 If you pass a file path, the CLI prints the parsed JSON to stdout:
 
 ```bash

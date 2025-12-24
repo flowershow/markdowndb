@@ -80,7 +80,7 @@ describe("mddb CLI", () => {
 
       return db("files")
         .select("file_path")
-        .then((files: any[]) => {
+        .then((files: { file_path: string }[]) => {
           expect(files.length).toBe(2);
           const filePaths = files.map((f) => f.file_path).sort();
           expect(filePaths[0]).toContain("dir1/file1.md");
