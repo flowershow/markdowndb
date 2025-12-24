@@ -1,4 +1,6 @@
 // import knex from "knex";
+import fs from "fs";
+import os from "os";
 import { MarkdownDB } from "../lib/markdowndb";
 import { recursiveWalkDir } from "../lib/recursiveWalkDir";
 import { File, MddbFile, Table } from "../lib/schema";
@@ -12,12 +14,14 @@ import path from "path";
 describe("MarkdownDB - default config", () => {
   const pathToContentFixture = "__mocks__/content";
   let mddb: MarkdownDB;
+  let dbPath: string;
 
   beforeAll(async () => {
+    dbPath = createTempDbPath("mddb-default");
     const dbConfig = {
       client: "sqlite3",
       connection: {
-        filename: "markdown.db",
+        filename: dbPath,
       },
     };
 
@@ -28,6 +32,7 @@ describe("MarkdownDB - default config", () => {
 
   afterAll(async () => {
     await mddb.db.destroy();
+    fs.rmSync(dbPath, { force: true });
   });
 
   describe("correct startup and indexing", () => {
@@ -297,12 +302,14 @@ describe("MarkdownDB - default config", () => {
 describe("MarkdownDB - custom config", () => {
   const pathToContentFixture = "__mocks__/content";
   let mddb: MarkdownDB;
+  let dbPath: string;
 
   beforeAll(async () => {
+    dbPath = createTempDbPath("mddb-custom");
     const dbConfig = {
       client: "sqlite3",
       connection: {
-        filename: "markdown.db",
+        filename: dbPath,
       },
     };
 
@@ -323,6 +330,7 @@ describe("MarkdownDB - custom config", () => {
     // TODO why we have to call this twice?
     mddb.db.destroy();
     mddb._destroyDb();
+    fs.rmSync(dbPath, { force: true });
   });
 
   describe("correct startup and indexing", () => {
@@ -346,4 +354,9 @@ describe("MarkdownDB - custom config", () => {
 function normalizePathSeparator(filePath: string): string {
   // Use path.sep to dynamically determine the path separator based on the OS
   return filePath.split("/").join(path.sep);
+}
+
+function createTempDbPath(prefix: string): string {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), `${prefix}-`));
+  return path.join(dir, "markdown.db");
 }

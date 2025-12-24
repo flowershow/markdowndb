@@ -123,6 +123,24 @@ const blogs = await mddb.getFiles({
 });
 ```
 
+
+### Process a single file or stream
+
+Use `processMarkdown` when you want to parse one markdown source without indexing a folder (e.g. in a Worker):
+
+```js
+import { processMarkdown } from "mddb";
+
+const source = "# Hello";
+const fileInfo = await processMarkdown(source, {
+  filePath: "posts/hello.md",
+  rootFolder: "posts",
+  pathToUrlResolver: (inputPath) => inputPath,
+});
+```
+
+You can pass a Node.js `Readable` stream or an `ArrayBuffer` as input. If you omit folder context, backlinks and folder-wide link resolution are not available.
+
 ## Computed Fields
 
 This feature helps you define functions that compute additional fields you want to include.

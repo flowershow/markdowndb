@@ -1,3 +1,6 @@
+import fs from "fs";
+import os from "os";
+import path from "path";
 import { FileInfo } from "../lib/process";
 import { Root } from "mdast";
 import { MarkdownDB } from "../lib/markdowndb";
@@ -6,12 +9,14 @@ import { z } from "zod";
 describe("Document Types Schema Validate Testing", () => {
   const pathToContentFixture = "__mocks__/content";
   let mddb: MarkdownDB;
+  let dbPath: string;
 
   beforeAll(async () => {
+    dbPath = createTempDbPath("mddb-document-types");
     const dbConfig = {
       client: "sqlite3",
       connection: {
-        filename: "markdown.db",
+        filename: dbPath,
       },
     };
     mddb = new MarkdownDB(dbConfig);
@@ -20,6 +25,7 @@ describe("Document Types Schema Validate Testing", () => {
 
   afterAll(async () => {
     await mddb.db.destroy();
+    fs.rmSync(dbPath, { force: true });
   });
   
   test("Should check if the title field is created and save in db", async () => {
@@ -61,3 +67,8 @@ describe("Document Types Schema Validate Testing", () => {
     );
   });
 });
+
+function createTempDbPath(prefix: string): string {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), `${prefix}-`));
+  return path.join(dir, "markdown.db");
+}

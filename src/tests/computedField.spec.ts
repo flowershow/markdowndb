@@ -1,4 +1,5 @@
-import { FileInfo, processFile } from "../lib/process";
+import fs from "fs";
+import { FileInfo, processMarkdown } from "../lib/process";
 import Path from "path";
 import { Root, Content } from "mdast";
 
@@ -10,21 +11,22 @@ describe("Can parse a file and get file info", () => {
     const pathToContentFixture = "__mocks__/content";
     const filePath = "index.mdx";
     const fullPath = Path.join(pathToContentFixture, filePath);
+    const source = fs.readFileSync(fullPath, "utf8");
     test("Can get some values from AST and Add it to fileInfo", async () => {
-        const fileInfo = processFile(
-            pathToContentFixture,
-            fullPath,
-            (filePath) => filePath,
-            [],
-            [
+        const fileInfo = await processMarkdown(source, {
+            filePath: fullPath,
+            rootFolder: pathToContentFixture,
+            pathToUrlResolver: (inputPath) => inputPath,
+            permalinks: [],
+            computedFields: [
                 (fileInfo: FileInfo, ast: Root) => {
                     const headingNode = ast.children.filter((child) => {
                         return child.type === "heading" && child.depth === 1;
                     }) as MyContent[];
                     fileInfo.title = headingNode[0]?.children[0]?.value;
                 },
-            ]
-        );
+            ],
+        });
 
         expect(fileInfo.file_path).toBe(fullPath);
         expect(fileInfo.url_path).toBe("index.mdx");
@@ -103,13 +105,13 @@ describe("Can parse a file and get file info", () => {
             },
         ]);
     });
-    test("Can add array,object,null,undefined values throw the computed fields", () => {
-        const fileInfo = processFile(
-            pathToContentFixture,
-            fullPath,
-            (filePath) => filePath,
-            [],
-            [
+    test("Can add array,object,null,undefined values throw the computed fields", async () => {
+        const fileInfo = await processMarkdown(source, {
+            filePath: fullPath,
+            rootFolder: pathToContentFixture,
+            pathToUrlResolver: (inputPath) => inputPath,
+            permalinks: [],
+            computedFields: [
                 // add homepage string to file info
                 (fileInfo: FileInfo, ast: Root) => {
                     fileInfo.public = {
@@ -130,8 +132,8 @@ describe("Can parse a file and get file info", () => {
                 (fileInfo: FileInfo, ast: Root) => {
                     fileInfo.building = undefined;
                 },
-            ]
-        );
+            ],
+        });
         expect(fileInfo.file_path).toBe(fullPath);
         expect(fileInfo.url_path).toBe("index.mdx");
         expect(fileInfo.public).toEqual({
@@ -143,13 +145,13 @@ describe("Can parse a file and get file info", () => {
         expect(fileInfo.matrix).toBeNull();
         expect(fileInfo.building).toBeUndefined();
     });
-    test("Can add string,number,and boolean values throw the computed fields", () => {
-        const fileInfo = processFile(
-            pathToContentFixture,
-            fullPath,
-            (filePath) => filePath,
-            [],
-            [
+    test("Can add string,number,and boolean values throw the computed fields", async () => {
+        const fileInfo = await processMarkdown(source, {
+            filePath: fullPath,
+            rootFolder: pathToContentFixture,
+            pathToUrlResolver: (inputPath) => inputPath,
+            permalinks: [],
+            computedFields: [
                 // add homepage string to file info
                 (fileInfo: FileInfo, ast: Root) => {
                     fileInfo.homePage = "indexFile";
@@ -162,8 +164,8 @@ describe("Can parse a file and get file info", () => {
                 (fileInfo: FileInfo, ast: Root) => {
                     fileInfo.isLocked = false;
                 },
-            ]
-        );
+            ],
+        });
         expect(fileInfo.file_path).toBe(fullPath);
         expect(fileInfo.url_path).toBe("index.mdx");
         expect(fileInfo.homePage).toBe("indexFile");
@@ -171,17 +173,17 @@ describe("Can parse a file and get file info", () => {
         expect(fileInfo.isLocked).toBe(false);
     });
     test("Can add metadata field threw the computed fields", async () => {
-        const fileInfo = processFile(
-            pathToContentFixture,
-            fullPath,
-            (filePath) => filePath,
-            [],
-            [
+        const fileInfo = await processMarkdown(source, {
+            filePath: fullPath,
+            rootFolder: pathToContentFixture,
+            pathToUrlResolver: (inputPath) => inputPath,
+            permalinks: [],
+            computedFields: [
                 (fileInfo: FileInfo, ast: Root) => {
                     fileInfo.metadata.AuthorName = "John Smith";
                 },
-            ]
-        );
+            ],
+        });
 
         expect(fileInfo.file_path).toBe(fullPath);
         expect(fileInfo.url_path).toBe("index.mdx");
@@ -259,19 +261,19 @@ describe("Can parse a file and get file info", () => {
             },
         ]);
     });
-    test("Can Edit and Delete Metadata Field threw the computed fields", () => {
-        const fileInfo = processFile(
-            pathToContentFixture,
-            fullPath,
-            (filePath) => filePath,
-            [],
-            [
+    test("Can Edit and Delete Metadata Field threw the computed fields", async () => {
+        const fileInfo = await processMarkdown(source, {
+            filePath: fullPath,
+            rootFolder: pathToContentFixture,
+            pathToUrlResolver: (inputPath) => inputPath,
+            permalinks: [],
+            computedFields: [
                 (fileInfo: FileInfo, ast: Root) => {
                     fileInfo.metadata.title = "Second Page";
                     delete fileInfo.metadata.AuthorName;
                 },
-            ]
-        );
+            ],
+        });
         expect(fileInfo.file_path).toBe(fullPath);
         expect(fileInfo.url_path).toBe("index.mdx");
         expect(fileInfo.extension).toBe("mdx");

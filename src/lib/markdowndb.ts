@@ -15,7 +15,7 @@ import {
 } from "./databaseUtils.js";
 import fs from "fs";
 import { CustomConfig } from "./CustomConfig.js";
-import { FileInfo, processFile } from "./process.js";
+import { FileInfo, processMarkdown } from "./process.js";
 import chokidar from "chokidar";
 import { recursiveWalkDir } from "./recursiveWalkDir.js";
 import { loadConfig } from "./loadConfig.js";
@@ -91,7 +91,7 @@ export class MarkdownDB {
     configFilePath?: string;
   }) {
     const config = customConfig || (await loadConfig(configFilePath)) || {};
-    const fileObjects = indexFolder(
+    const fileObjects = await indexFolder(
       folderPath,
       pathToUrlResolver,
       config,
@@ -107,7 +107,7 @@ export class MarkdownDB {
       const filePathsToIndex = recursiveWalkDir(folderPath);
       const computedFields = config.computedFields || [];
 
-      const handleFileEvent = (event: string, filePath: string) => {
+      const handleFileEvent = async (event: string, filePath: string) => {
         if (
           !shouldIncludeFile({
             filePath,
@@ -126,17 +126,19 @@ export class MarkdownDB {
           if (index !== -1) {
             fileObjects.splice(index, 1);
           }
+          await this.saveDataToDisk(fileObjects);
           console.log(`File ${filePath} has been removed`);
           return;
         }
 
-        const fileObject = processFile(
-          folderPath,
+        const sourceStream = fs.createReadStream(filePath);
+        const fileObject = await processMarkdown(sourceStream, {
           filePath,
+          rootFolder: folderPath,
           pathToUrlResolver,
-          filePathsToIndex,
-          computedFields
-        );
+          permalinks: filePathsToIndex,
+          computedFields,
+        });
         const index = fileObjects.findIndex(
           (obj) => obj.file_path === filePath
         );
@@ -147,16 +149,16 @@ export class MarkdownDB {
           fileObjects.push(fileObject);
         }
 
+        await this.saveDataToDisk(fileObjects);
         console.log(
           `File ${filePath} has been ${event === "add" ? "added" : "updated"}`
         );
       };
 
       watcher
-        .on("add", (filePath) => handleFileEvent("add", filePath))
-        .on("change", (filePath) => handleFileEvent("change", filePath))
-        .on("unlink", (filePath) => handleFileEvent("unlink", filePath))
-        .on("all", () => this.saveDataToDisk(fileObjects))
+        .on("add", (filePath) => void handleFileEvent("add", filePath))
+        .on("change", (filePath) => void handleFileEvent("change", filePath))
+        .on("unlink", (filePath) => void handleFileEvent("unlink", filePath))
         .on("error", (error) => console.error(`Watcher error: ${error}`));
     }
   }

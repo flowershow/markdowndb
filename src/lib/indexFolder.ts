@@ -1,10 +1,11 @@
+import fs from "fs";
 import { ZodError } from "zod";
 import { CustomConfig } from "./CustomConfig.js";
-import { FileInfo, processFile } from "./process.js";
+import { FileInfo, processMarkdown } from "./process.js";
 import { recursiveWalkDir } from "./recursiveWalkDir.js";
 import micromatch from "micromatch";
 
-export function indexFolder(
+export async function indexFolder(
   folderPath: string,
   pathToUrlResolver: (filePath: string) => string,
   config: CustomConfig,
@@ -23,13 +24,14 @@ export function indexFolder(
   const computedFields = config.computedFields || [];
   const schemas = config.schemas;
   for (const filePath of filteredFilePathsToIndex) {
-    const fileObject = processFile(
-      folderPath,
+    const sourceStream = fs.createReadStream(filePath);
+    const fileObject = await processMarkdown(sourceStream, {
       filePath,
+      rootFolder: folderPath,
       pathToUrlResolver,
-      filePathsToIndex,
-      computedFields
-    );
+      permalinks: filePathsToIndex,
+      computedFields,
+    });
     const urlPath = fileObject?.url_path ?? "";
     // This is temporary.
     // Note: Subject to change pending agreement on the final structure of document types.
@@ -51,7 +53,9 @@ export function indexFolder(
             } for the ${documentType} schema. \n    In "${err.path.join(
               ","
             )}" field: ${err.message}`;
-          console.error(errorMessage);
+          if (process.env.NODE_ENV !== "test") {
+            console.error(errorMessage);
+          }
         });
         
         throw new Error(
