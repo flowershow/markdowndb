@@ -75,8 +75,8 @@ markdown files → remark-parse → syntax tree → extract features →
 ### Test Structure
 
 ```typescript
-// Jest globals (describe, test, expect, beforeAll, etc.) are available without imports
-// Test imports
+// Jest globals (describe, test, expect, beforeAll, etc.) are injected automatically
+// and do not need to be imported (this is Jest's default behavior)
 import { MarkdownDB } from "../lib/markdowndb";
 
 describe("Feature name", () => {
