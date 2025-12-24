@@ -1,5 +1,8 @@
 #!/usr/bin/env node
+import fs from "fs";
+import path from "path";
 import { MarkdownDB } from "../lib/markdowndb.js";
+import { processMarkdown } from "../lib/process.js";
 
 // TODO get these from markdowndb.config.js or something
 const dbPath = "markdown.db";
@@ -23,6 +26,28 @@ if (!contentPath) {
   process.exit(1);
 }
 
+const resolvedContentPath = path.resolve(contentPath);
+const stats = fs.statSync(resolvedContentPath);
+
+if (stats.isFile()) {
+  const extension = path.extname(resolvedContentPath).toLowerCase();
+  if (extension !== ".md" && extension !== ".markdown" && extension !== ".mdx") {
+    console.error(
+      "Is this a markdown file? Expected .md, .markdown, or .mdx."
+    );
+  }
+
+  const stream = fs.createReadStream(resolvedContentPath);
+  const fileInfo = await processMarkdown(stream, {
+    filePath: resolvedContentPath,
+    rootFolder: path.dirname(resolvedContentPath),
+    pathToUrlResolver: (inputPath) => inputPath,
+  });
+
+  console.log(JSON.stringify(fileInfo, null, 2));
+  process.exit(0);
+}
+
 const client = new MarkdownDB({
   client: "sqlite3",
   connection: {
@@ -33,7 +58,7 @@ const client = new MarkdownDB({
 await client.init();
 
 await client.indexFolder({
-  folderPath: contentPath,
+  folderPath: resolvedContentPath,
   ignorePatterns: ignorePatterns,
   watch: watchFlag,
   configFilePath: configFilePath,

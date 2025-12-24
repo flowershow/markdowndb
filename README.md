@@ -62,6 +62,14 @@ Use the npm `mddb` package to index Markdown files into an SQLite database. This
 npx mddb ./blog
 ```
 
+If you pass a file path, the CLI prints the parsed JSON to stdout:
+
+```bash
+npx mddb ./blog/post.md
+```
+
+Non-markdown extensions still parse, but the CLI warns: "Is this a markdown file? Expected .md, .markdown, or .mdx."
+
 ### Watching for Changes
 
 To monitor files for changes and update the database accordingly, simply add the `--watch` flag to the command:
