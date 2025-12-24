@@ -2,6 +2,7 @@ import { execFileSync, spawnSync } from "child_process";
 import fs from "fs";
 import os from "os";
 import path from "path";
+import knex from "knex";
 
 const cliPath = path.join(process.cwd(), "dist", "src", "bin", "index.js");
 
@@ -129,6 +130,61 @@ await mddb.db.destroy();
       expect(result.stdout.trim()).toBe("ok");
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+
+  test("indexes multiple directories into a single database", () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "mddb-cli-"));
+    const dir1 = path.join(tmpDir, "dir1");
+    const dir2 = path.join(tmpDir, "dir2");
+    const dbPath = path.join(tmpDir, "markdown.db");
+
+    fs.mkdirSync(dir1);
+    fs.mkdirSync(dir2);
+    fs.writeFileSync(
+      path.join(dir1, "file1.md"),
+      "---\ntitle: File 1\n---\n\n# File 1"
+    );
+    fs.writeFileSync(
+      path.join(dir2, "file2.md"),
+      "---\ntitle: File 2\n---\n\n# File 2"
+    );
+
+    try {
+      const result = spawnSync(
+        process.execPath,
+        [cliPath, dir1, dir2],
+        {
+          cwd: tmpDir,
+          encoding: "utf8",
+        }
+      );
+
+      expect(result.status).toBe(0);
+      expect(fs.existsSync(dbPath)).toBe(true);
+
+      // Verify both files are in the database
+      const db = knex({
+        client: "sqlite3",
+        connection: { filename: dbPath },
+        useNullAsDefault: true,
+      });
+
+      return db("files")
+        .select("file_path")
+        .then((files: { file_path: string }[]) => {
+          expect(files.length).toBe(2);
+          const filePaths = files.map((f) => f.file_path).sort();
+          expect(filePaths[0]).toContain("dir1/file1.md");
+          expect(filePaths[1]).toContain("dir2/file2.md");
+          return db.destroy();
+        })
+        .finally(() => {
+          fs.rmSync(tmpDir, { recursive: true, force: true });
+        });
+    } catch (error) {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+      throw error;
     }
   });
 });

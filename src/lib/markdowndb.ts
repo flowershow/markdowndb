@@ -163,6 +163,120 @@ export class MarkdownDB {
     }
   }
 
+  /**
+   * Indexes the files in multiple specified folders and updates the database accordingly.
+   * @param {Object} options - Options for indexing the folders.
+   * @param {string[]} options.folderPaths - Array of folder paths to be indexed.
+   * @param {RegExp[]} [options.ignorePatterns=[]] - Array of RegExp patterns to ignore during indexing.
+   * @param {(filePath: string) => string} [options.pathToUrlResolver=defaultFilePathToUrl] - Function to resolve file paths to URLs.
+   * @returns {Promise<void>} - A promise resolving when the indexing is complete.
+   */
+  async indexFolders({
+    folderPaths,
+    ignorePatterns = [],
+    pathToUrlResolver = defaultFilePathToUrl,
+    customConfig,
+    watch = false,
+    configFilePath,
+  }: {
+    folderPaths: string[];
+    ignorePatterns?: RegExp[];
+    pathToUrlResolver?: (filePath: string) => string;
+    customConfig?: CustomConfig;
+    watch?: boolean;
+    configFilePath?: string;
+  }) {
+    const config = customConfig || (await loadConfig(configFilePath)) || {};
+    
+    // Collect files from all folders
+    const allFileObjects: FileInfo[] = [];
+    for (const folderPath of folderPaths) {
+      const fileObjects = await indexFolder(
+        folderPath,
+        pathToUrlResolver,
+        config,
+        ignorePatterns
+      );
+      allFileObjects.push(...fileObjects);
+    }
+    
+    // Save all files to disk at once
+    await this.saveDataToDisk(allFileObjects);
+
+    if (watch) {
+      // Watch all folders
+      const watcher = chokidar.watch(folderPaths, {
+        ignoreInitial: true,
+      });
+
+      const computedFields = config.computedFields || [];
+      
+      // Collect all file paths from all folders for permalink resolution
+      const allFilePathsToIndex: string[] = [];
+      for (const folderPath of folderPaths) {
+        const filePathsToIndex = recursiveWalkDir(folderPath);
+        allFilePathsToIndex.push(...filePathsToIndex);
+      }
+
+      const handleFileEvent = async (event: string, filePath: string) => {
+        if (
+          !shouldIncludeFile({
+            filePath,
+            ignorePatterns,
+            includeGlob: config.include,
+            excludeGlob: config.exclude,
+          })
+        ) {
+          return;
+        }
+
+        if (event === "unlink") {
+          const index = allFileObjects.findIndex(
+            (obj) => obj.file_path === filePath
+          );
+          if (index !== -1) {
+            allFileObjects.splice(index, 1);
+          }
+          await this.saveDataToDisk(allFileObjects);
+          console.log(`File ${filePath} has been removed`);
+          return;
+        }
+
+        // Determine which folder this file belongs to
+        const folderPath = folderPaths.find(fp => filePath.startsWith(fp)) || folderPaths[0];
+
+        const sourceStream = fs.createReadStream(filePath);
+        const fileObject = await processMarkdown(sourceStream, {
+          filePath,
+          rootFolder: folderPath,
+          pathToUrlResolver,
+          permalinks: allFilePathsToIndex,
+          computedFields,
+        });
+        const index = allFileObjects.findIndex(
+          (obj) => obj.file_path === filePath
+        );
+
+        if (index !== -1) {
+          allFileObjects[index] = fileObject;
+        } else {
+          allFileObjects.push(fileObject);
+        }
+
+        await this.saveDataToDisk(allFileObjects);
+        console.log(
+          `File ${filePath} has been ${event === "add" ? "added" : "updated"}`
+        );
+      };
+
+      watcher
+        .on("add", (filePath) => void handleFileEvent("add", filePath))
+        .on("change", (filePath) => void handleFileEvent("change", filePath))
+        .on("unlink", (filePath) => void handleFileEvent("unlink", filePath))
+        .on("error", (error) => console.error(`Watcher error: ${error}`));
+    }
+  }
+
   private async saveDataToDisk(fileObjects: FileInfo[]) {
     await resetDatabaseTables(this.db);
     const properties = getUniqueProperties(fileObjects);
