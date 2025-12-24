@@ -43,7 +43,15 @@ export function getJsonExtractSyntax(
  * @param builder - Knex query builder
  * @param column - Column name to search
  * @param pattern - Pattern to match
- * @param client - Database client type (for future database-specific implementations)
+ * @param client - Database client type
+ * 
+ * Note: This uses case-sensitive LIKE for all databases.
+ * - SQLite: LIKE is case-insensitive by default for ASCII characters
+ * - MySQL: LIKE case-sensitivity depends on collation (usually case-insensitive)
+ * - PostgreSQL: LIKE is case-sensitive; use ILIKE for case-insensitive matching
+ * 
+ * For PostgreSQL case-insensitive queries, consider using ILIKE directly in your
+ * application code or adjusting the column collation.
  */
 export function addLikeQuery(
   builder: Knex.QueryBuilder,
@@ -51,15 +59,15 @@ export function addLikeQuery(
   pattern: string,
   client: string
 ): void {
-  // All supported databases use LIKE with similar syntax
-  // SQLite: LIKE (case-insensitive by default)
-  // MySQL: LIKE (case-insensitive by default with default collation)
-  // PostgreSQL: ILIKE (case-insensitive) or LIKE (case-sensitive)
-  
-  // For consistency, we'll use LIKE for all databases
-  // Users can adjust collation in their database config if needed
-  // The client parameter is kept for potential future database-specific implementations
-  builder.where(column, "like", pattern);
+  const normalizedClient = client.toLowerCase();
+
+  // Use ILIKE for PostgreSQL for case-insensitive matching
+  if (normalizedClient === "pg" || normalizedClient === "postgres" || normalizedClient === "postgresql") {
+    builder.where(column, "ilike", pattern);
+  } else {
+    // Use LIKE for SQLite and MySQL
+    builder.where(column, "like", pattern);
+  }
 }
 
 /**
