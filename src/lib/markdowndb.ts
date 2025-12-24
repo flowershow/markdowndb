@@ -243,7 +243,9 @@ export class MarkdownDB {
         }
 
         // Determine which folder this file belongs to
-        const folderPath = folderPaths.find(fp => filePath.startsWith(fp)) || folderPaths[0];
+        // Sort by length descending to match the most specific path first
+        const sortedFolderPaths = [...folderPaths].sort((a, b) => b.length - a.length);
+        const folderPath = sortedFolderPaths.find(fp => filePath.startsWith(fp + path.sep) || filePath.startsWith(fp + '/')) || folderPaths[0];
 
         const sourceStream = fs.createReadStream(filePath);
         const fileObject = await processMarkdown(sourceStream, {
