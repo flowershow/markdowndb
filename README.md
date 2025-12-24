@@ -5,14 +5,25 @@
 
 MarkdownDB is a javascript library that turns markdown files into structured queryable databaase (SQL-based and simple JSON). It helps you build rich markdown-powered sites easily and reliably. Specifically it:
 
-- Parses your markdown files to extract structured data (frontmatter, tags etc) and builds a queryable index either in JSON files or a local SQLite database
+- Parses your markdown files to extract structured data (frontmatter, tags etc) and builds a queryable index either in JSON files or a local database (SQLite, MySQL, or PostgreSQL)
 - Provides a lightweight javascript API for querying the index and using the data files into your application
+
+## Database Support
+
+MarkdownDB supports multiple database backends through [Knex.js](https://knexjs.org/):
+
+- **SQLite** (default) - Perfect for local development and small to medium sites. No additional setup required.
+- **MySQL** - Great for larger sites and when you need a separate database server. Requires `mysql2` package.
+- **PostgreSQL** - Enterprise-grade database with advanced features. Requires `pg` package.
+
+All databases provide the same API and features, so you can easily switch between them based on your needs.
 
 ## Features and Roadmap
 
 - [x] **Index a folder of files** - create a db index given a folder of markdown and other files
   - [x] **Command line tool for indexing**: Create a markdowndb (index) on the command line **v0.1**
   - [x] SQL(ite) index **v0.2**
+  - [x] **MySQL and PostgreSQL support** - Use MySQL or PostgreSQL as your database backend
   - [x] JSON index **v0.6**
   - [ ] BONUS Index multiple folders (with support for configuring e.g. prefixing in some way e.g. i have all my blog files in this separate folder over here)
   - [x] Configuration for Including/Excluding Files in the folder
@@ -93,6 +104,8 @@ npm install mddb
 
 Now, once the data is in the database, you can add the following script to your project (e.g. in `/lib` folder). It will allow you to establish a single connection to the database and use it across you app.
 
+#### SQLite (default)
+
 ```js
 // @/lib/mddb.mjs
 import { MarkdownDB } from "mddb";
@@ -103,6 +116,66 @@ const client = new MarkdownDB({
   client: "sqlite3",
   connection: {
     filename: dbPath,
+  },
+});
+
+const clientPromise = client.init();
+
+export default clientPromise;
+```
+
+#### MySQL
+
+First, install the MySQL driver:
+
+```bash
+npm install mysql2
+```
+
+Then configure MarkdownDB to use MySQL:
+
+```js
+// @/lib/mddb.mjs
+import { MarkdownDB } from "mddb";
+
+const client = new MarkdownDB({
+  client: "mysql2",
+  connection: {
+    host: "localhost",
+    port: 3306,
+    user: "your_username",
+    password: "your_password",
+    database: "your_database",
+  },
+});
+
+const clientPromise = client.init();
+
+export default clientPromise;
+```
+
+#### PostgreSQL
+
+First, install the PostgreSQL driver:
+
+```bash
+npm install pg
+```
+
+Then configure MarkdownDB to use PostgreSQL:
+
+```js
+// @/lib/mddb.mjs
+import { MarkdownDB } from "mddb";
+
+const client = new MarkdownDB({
+  client: "pg",
+  connection: {
+    host: "localhost",
+    port: 5432,
+    user: "your_username",
+    password: "your_password",
+    database: "your_database",
   },
 });
 
