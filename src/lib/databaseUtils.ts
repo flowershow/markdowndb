@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import { MddbFile, MddbTag, MddbTask, MddbLink, MddbFileTag, File } from "./schema.js";
+import { MddbTag, MddbTask, MddbLink, MddbFileTag, File } from "./schema.js";
 import path from "path";
 import { WikiLink } from "./parseFile.js";
 
@@ -13,6 +13,7 @@ export async function resetDatabaseTables(db: Knex) {
 }
 
 export function mapFileToInsert(file: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { tags, links, ...rest } = file;
   return { ...rest };
 }

@@ -33,7 +33,7 @@ describe("Document Types Schema Validate Testing", () => {
       folderPath: pathToContentFixture,
       customConfig: {
         computedFields: [
-          (fileInfo: FileInfo, ast: Root) => {
+          (fileInfo: FileInfo, _ast: Root) => {
             fileInfo.title = "Hello";
           },
         ],

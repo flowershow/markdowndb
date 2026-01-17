@@ -1,5 +1,6 @@
 export default {
   computedFields: [], // Array of functions to computed fields
+  /** @type {Record<string, never>} */
   schemas: {
     // Add zod schemas
   },
