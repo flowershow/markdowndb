@@ -15,6 +15,7 @@
     "build": "tsc --p tsconfig.lib.json",
     "watch": "tsc --p tsconfig.lib.json --watch",
     "changeset": "changeset",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "release": "changeset publish"
   },

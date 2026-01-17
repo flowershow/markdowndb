@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 import fs from "fs";
+import os from "os";
 import path from "path";
 import { MarkdownDB } from "../lib/markdowndb.js";
 import { processMarkdown } from "../lib/process.js";
+import { runExecScript } from "../lib/runExecScript.js";
 
 // TODO get these from markdowndb.config.js or something
 const dbPath = "markdown.db";
@@ -17,6 +19,7 @@ const printHelp = () => {
 
 Usage:
   mddb <content-path> [config-path] [--watch]
+  mddb --exec script.mjs [arg...]
   mddb <markdown-file>
   mddb --help
 
@@ -27,6 +30,7 @@ Examples:
 
 Options:
   --watch     Watch for changes and keep the process running
+  --exec      Execute a JS module (path to .mjs/.js or - for stdin)
   -h, --help  Show this help message
 `);
 };
@@ -34,6 +38,33 @@ Options:
 if (showHelp) {
   printHelp();
   process.exit(0);
+}
+
+if (args[0] === "--exec") {
+  const execScriptPath = args[1];
+  if (!execScriptPath) {
+    console.error("Missing path after --exec");
+    process.exit(1);
+  }
+  const execScriptArgs = args.slice(2);
+  const resolvedExecPath =
+    execScriptPath === "-"
+      ? (() => {
+          const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "mddb-exec-"));
+          const tmpScript = path.join(tmpDir, "exec.mjs");
+          fs.writeFileSync(tmpScript, fs.readFileSync(0, "utf8"));
+          process.on("exit", () => {
+            fs.rmSync(tmpDir, { recursive: true, force: true });
+          });
+          return tmpScript;
+        })()
+      : path.resolve(execScriptPath);
+  if (!fs.existsSync(resolvedExecPath)) {
+    console.error(`Exec script not found: ${resolvedExecPath}`);
+    process.exit(1);
+  }
+  const status = runExecScript(resolvedExecPath, execScriptArgs);
+  process.exit(status);
 }
 
 // Check for the watch flag and its position
