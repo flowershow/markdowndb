@@ -78,6 +78,21 @@ npx mddb ./blog --watch
 ```
 This command will continuously watch for any modifications in the specified folder (`./blog`), automatically rebuilding the database whenever a change is detected.
 
+### Execute a Script with MarkdownDB APIs
+
+Run a JS module that can call the MarkdownDB APIs directly.  Arguments after the script path are passed through.
+Internally, `--exec` uses `node --import` to set up module resolution so `mddb` is available.
+
+```bash
+npx mddb --exec ./scripts/report.mjs --flag value
+```
+
+You can also pass a module over stdin:
+
+```bash
+cat ./scripts/report.mjs | npx mddb --exec -
+```
+
 ### Query your files with SQL...
 
 E.g. get all the files with with tag `a`.
