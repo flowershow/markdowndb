@@ -163,7 +163,7 @@ describe("extractTasks", () => {
   });
   test("should extract tasks with kanban list names from body", () => {
     const body = "## Ideas\n\n- [ ] task 1\n- [ ] task 2\n## Doing\n\n- [ ] task 3\n- [ ] task 4\n## Done\n\n- [x] task 5";
-    const kanbanMetadata = "---\nkanban-list: board\n---\n";
+    const kanbanMetadata = "---\nkanban-plugin: board\n---\n";
     const tasksInNonKanban = getTasksFromSource(body);
     const tasksInKanban = getTasksFromSource(kanbanMetadata + body);
     expect(tasksInNonKanban).toEqual([
