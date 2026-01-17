@@ -193,7 +193,7 @@ export const extractWikiLinks = (ast: Root, options?: ParsingOptions) => {
 export const extractTasks = (ast: Root, metadata: { [key: string]: any }) => {
   const nodes = selectAll("*", ast);
   const tasks: Task[] = [];
-  const isKanban = metadata["kanban-list"] === "board";
+  const isKanban = metadata["kanban-plugin"] === "board";
   let list: string | null = null;
   nodes.map((node: any) => {
     if (node.type === "listItem") {
