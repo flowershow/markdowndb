@@ -113,7 +113,7 @@ describe("Can parse a file and get file info", () => {
             permalinks: [],
             computedFields: [
                 // add homepage string to file info
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.public = {
                         title: "Title",
                         pageSize: 34,
@@ -121,15 +121,15 @@ describe("Can parse a file and get file info", () => {
                     };
                 },
                 // add pageNumber as number to fileInfo
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.Authors = ["Abdelrhiim", "Mohammed", "John"];
                 },
                 // add isLocked as boolean to fileInfo
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.matrix = null;
                 },
                 // add isLocked as boolean to fileInfo
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.building = undefined;
                 },
             ],
@@ -153,15 +153,15 @@ describe("Can parse a file and get file info", () => {
             permalinks: [],
             computedFields: [
                 // add homepage string to file info
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.homePage = "indexFile";
                 },
                 // add pageNumber as number to fileInfo
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.pageNumber = 23;
                 },
                 // add isLocked as boolean to fileInfo
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.isLocked = false;
                 },
             ],
@@ -179,7 +179,7 @@ describe("Can parse a file and get file info", () => {
             pathToUrlResolver: (inputPath) => inputPath,
             permalinks: [],
             computedFields: [
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.metadata.AuthorName = "John Smith";
                 },
             ],
@@ -268,7 +268,7 @@ describe("Can parse a file and get file info", () => {
             pathToUrlResolver: (inputPath) => inputPath,
             permalinks: [],
             computedFields: [
-                (fileInfo: FileInfo, ast: Root) => {
+                (fileInfo: FileInfo, _ast: Root) => {
                     fileInfo.metadata.title = "Second Page";
                     delete fileInfo.metadata.AuthorName;
                 },

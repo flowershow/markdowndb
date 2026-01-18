@@ -29,6 +29,7 @@ const defaultFilePathToUrl = (filePath: string) => {
   return encodeURI(url);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const resolveLinkToUrlPath = (link: string, sourceFilePath?: string) => {
   if (!sourceFilePath) {
     return link;
