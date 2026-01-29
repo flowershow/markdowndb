@@ -15,13 +15,25 @@ export const runExecScript = (scriptPath: string, scriptArgs: string[]) => {
     mddbEntry = require.resolve("mddb");
   } catch (error) {
     // Only handle MODULE_NOT_FOUND errors, throw others
-    if (error instanceof Error && 'code' in error && error.code !== 'MODULE_NOT_FOUND') {
+    if (
+      !(error instanceof Error) ||
+      !('code' in error) ||
+      (error as NodeJS.ErrnoException).code !== 'MODULE_NOT_FOUND'
+    ) {
       throw error;
     }
     // When running in development/testing, resolve to the local built version
     // This file is at dist/src/lib/runExecScript.js, so go up to project root
     const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
     mddbEntry = path.join(projectRoot, 'dist', 'src', 'index.js');
+    
+    // Verify the built file exists
+    if (!fs.existsSync(mddbEntry)) {
+      throw new Error(
+        `Cannot find mddb module. The package is not installed and the local build is missing.\n` +
+        `Please run 'npm run build' first to create the local build at: ${mddbEntry}`
+      );
+    }
   }
   
   const loaderPath = path.join(tmpDir, "loader.mjs");
