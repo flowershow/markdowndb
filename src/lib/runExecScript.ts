@@ -3,7 +3,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { createRequire } from "module";
-import { pathToFileURL } from "url";
+import { pathToFileURL, fileURLToPath } from "url";
 
 export const runExecScript = (scriptPath: string, scriptArgs: string[]) => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "mddb-exec-"));
@@ -14,8 +14,13 @@ export const runExecScript = (scriptPath: string, scriptArgs: string[]) => {
   try {
     mddbEntry = require.resolve("mddb");
   } catch (error) {
+    // Only handle MODULE_NOT_FOUND errors, throw others
+    if (error instanceof Error && 'code' in error && error.code !== 'MODULE_NOT_FOUND') {
+      throw error;
+    }
     // When running in development/testing, resolve to the local built version
-    const projectRoot = path.resolve(path.dirname(import.meta.url.replace('file://', '')), '../../..');
+    // This file is at dist/src/lib/runExecScript.js, so go up to project root
+    const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
     mddbEntry = path.join(projectRoot, 'dist', 'src', 'index.js');
   }
   
