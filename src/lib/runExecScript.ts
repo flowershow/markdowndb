@@ -8,7 +8,17 @@ import { pathToFileURL } from "url";
 export const runExecScript = (scriptPath: string, scriptArgs: string[]) => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "mddb-exec-"));
   const require = createRequire(import.meta.url);
-  const mddbEntry = require.resolve("mddb");
+  
+  // Try to resolve "mddb" package, fall back to local dist if not found
+  let mddbEntry: string;
+  try {
+    mddbEntry = require.resolve("mddb");
+  } catch (error) {
+    // When running in development/testing, resolve to the local built version
+    const projectRoot = path.resolve(path.dirname(import.meta.url.replace('file://', '')), '../../..');
+    mddbEntry = path.join(projectRoot, 'dist', 'src', 'index.js');
+  }
+  
   const loaderPath = path.join(tmpDir, "loader.mjs");
   fs.writeFileSync(
     loaderPath,
