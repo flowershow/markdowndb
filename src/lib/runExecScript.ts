@@ -11,6 +11,7 @@ export const runExecScript = (scriptPath: string, scriptArgs: string[]) => {
   
   // Try to resolve "mddb" package, fall back to local dist if not found
   let mddbEntry: string;
+  let usingLocalBuild = false;
   try {
     mddbEntry = require.resolve("mddb");
   } catch (error) {
@@ -26,6 +27,7 @@ export const runExecScript = (scriptPath: string, scriptArgs: string[]) => {
     // This file is at dist/src/lib/runExecScript.js, so go up to project root
     const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
     mddbEntry = path.join(projectRoot, 'dist', 'src', 'index.js');
+    usingLocalBuild = true;
     
     // Verify the built file exists
     if (!fs.existsSync(mddbEntry)) {
