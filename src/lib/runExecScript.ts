@@ -52,18 +52,36 @@ export function resolve(specifier, context, defaultResolve) {
   );
 
   const baseUrl = pathToFileURL(process.cwd() + path.sep).href;
-  const registerSource = `import { register } from "node:module";
+  
+  // Node version detection for loader compatibility
+  const nodeMajorVersion = parseInt(process.version.slice(1).split('.')[0], 10);
+  
+  let spawnArgs: string[];
+  if (nodeMajorVersion >= 18) {
+    // Node 18+ supports --import flag with register()
+    const registerSource = `import { register } from "node:module";
 import { pathToFileURL } from "node:url";
 register(${JSON.stringify(loaderPath)}, pathToFileURL(${JSON.stringify(
-    baseUrl
-  )}));
+      baseUrl
+    )}));
 `;
-  const registerUrl = `data:text/javascript,${encodeURIComponent(
-    registerSource
-  )}`;
+    const registerUrl = `data:text/javascript,${encodeURIComponent(
+      registerSource
+    )}`;
+    spawnArgs = ["--import", registerUrl, scriptPath, ...scriptArgs];
+  } else {
+    // Node 16 uses --experimental-loader (older API)
+    spawnArgs = [
+      "--experimental-loader",
+      pathToFileURL(loaderPath).href,
+      scriptPath,
+      ...scriptArgs
+    ];
+  }
+  
   const result = spawnSync(
     process.execPath,
-    ["--import", registerUrl, scriptPath, ...scriptArgs],
+    spawnArgs,
     { stdio: "inherit" }
   );
 
