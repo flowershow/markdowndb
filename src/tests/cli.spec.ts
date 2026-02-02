@@ -105,6 +105,42 @@ await mddb.db.destroy();
     }
   });
 
+  test("waits for the db to settle before exec", () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "mddb-cli-exec-"));
+    const tmpScript = path.join(tmpDir, "exec.mjs");
+    fs.writeFileSync(tmpScript, execScript(false));
+
+    try {
+      const sampleDir = path.resolve("examples", "basic-example", "projects");
+      const build = spawnSync(process.execPath, [cliPath, sampleDir], {
+        encoding: "utf8",
+        cwd: tmpDir,
+      });
+      expect(build.status).toBe(0);
+
+      const dbPath = path.join(tmpDir, "markdown.db");
+      const now = new Date();
+      fs.utimesSync(dbPath, now, now);
+
+      const start = Date.now();
+      const result = spawnSync(
+        process.execPath,
+        [cliPath, "--exec", "--wait-db-ms", "200", tmpScript, sampleDir],
+        {
+          encoding: "utf8",
+          cwd: tmpDir,
+        }
+      );
+      const duration = Date.now() - start;
+
+      expect(result.status).toBe(0);
+      expect(result.stdout.trim()).toBe("ok");
+      expect(duration).toBeGreaterThanOrEqual(150);
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+
   test("executes a module from stdin with mddb available", () => {
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "mddb-cli-exec-"));
 

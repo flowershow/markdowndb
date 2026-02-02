@@ -105,6 +105,12 @@ Internally, `--exec` uses `node --import` to set up module resolution so `mddb` 
 npx mddb --exec ./scripts/report.mjs --flag value
 ```
 
+If you need to wait for the database file to settle, pass `--wait-db-ms <ms>` before the script path.  The CLI waits until `markdown.db` has been idle for that many milliseconds.  If the file keeps updating, it waits indefinitely.
+
+```bash
+npx mddb --exec --wait-db-ms 500 ./scripts/report.mjs
+```
+
 You can also pass a module over stdin:
 
 ```bash
