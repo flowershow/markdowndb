@@ -12,7 +12,8 @@ const ignorePatterns = [/Excalidraw/, /\.obsidian/, /DS_Store/];
 
 let watchFlag;
 const args = process.argv.slice(2);
-const showHelp = args.length === 0 || args.includes("-h") || args.includes("--help");
+const showHelp =
+  args.length === 0 || args.includes("-h") || args.includes("--help");
 
 const printHelp = () => {
   console.log(`mddb - MarkdownDB CLI
@@ -82,7 +83,7 @@ let configFilePath;
 const contentPaths = [];
 
 for (const arg of args) {
-  if (arg.endsWith('.js') || arg.endsWith('.json')) {
+  if (arg.endsWith(".js") || arg.endsWith(".json")) {
     configFilePath = arg;
   } else {
     contentPaths.push(arg);
@@ -100,15 +101,19 @@ const stats = fs.statSync(resolvedFirstPath);
 
 if (stats.isFile()) {
   if (contentPaths.length > 1) {
-    console.error("Cannot process multiple paths when the first path is a file");
+    console.error(
+      "Cannot process multiple paths when the first path is a file"
+    );
     process.exit(1);
   }
 
   const extension = path.extname(resolvedFirstPath).toLowerCase();
-  if (extension !== ".md" && extension !== ".markdown" && extension !== ".mdx") {
-    console.error(
-      "Is this a markdown file? Expected .md, .markdown, or .mdx."
-    );
+  if (
+    extension !== ".md" &&
+    extension !== ".markdown" &&
+    extension !== ".mdx"
+  ) {
+    console.error("Is this a markdown file? Expected .md, .markdown, or .mdx.");
   }
 
   const stream = fs.createReadStream(resolvedFirstPath);
@@ -123,7 +128,7 @@ if (stats.isFile()) {
 }
 
 // Resolve all content paths
-const resolvedContentPaths = contentPaths.map(p => path.resolve(p));
+const resolvedContentPaths = contentPaths.map((p) => path.resolve(p));
 
 const client = new MarkdownDB({
   client: "sqlite3",

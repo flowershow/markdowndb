@@ -51,9 +51,9 @@ describe("parseFile", () => {
         "Tag_avec_éèç-_öäüßñ",
       ],
       tasks: [
-        { 
-          description: "uncompleted task", 
-          checked: false, 
+        {
+          description: "uncompleted task",
+          checked: false,
           metadata: {},
           created: null,
           due: null,
@@ -62,9 +62,9 @@ describe("parseFile", () => {
           scheduled: null,
           list: null,
         },
-        { 
-          description: "completed task", 
-          checked: true, 
+        {
+          description: "completed task",
+          checked: true,
           metadata: {},
           created: null,
           due: null,
@@ -131,9 +131,9 @@ describe("parseFile", () => {
         "Tag_avec_éèç-_öäüßñ",
       ],
       tasks: [
-        { 
-          description: "uncompleted task", 
-          checked: false, 
+        {
+          description: "uncompleted task",
+          checked: false,
           metadata: {},
           created: null,
           due: null,
@@ -141,10 +141,10 @@ describe("parseFile", () => {
           start: null,
           scheduled: null,
           list: null,
-      },
-        { 
-          description: "completed task", 
-          checked: true, 
+        },
+        {
+          description: "completed task",
+          checked: true,
           metadata: {},
           created: null,
           due: null,
@@ -204,7 +204,8 @@ import { extractAllTaskMetadata } from "../lib/parseFile";
 
 describe("extractAllTaskMetadata", () => {
   it("should extract metadata fields from the description", () => {
-    const description = "[field1:: value1] [field2:: value2] [field3:: value3] #tag1 [due:: 2030-12-31] [created:: 2024-01-01 ] [completion:: ] [start:: ] [scheduled:: ] #tag2";
+    const description =
+      "[field1:: value1] [field2:: value2] [field3:: value3] #tag1 [due:: 2030-12-31] [created:: 2024-01-01 ] [completion:: ] [start:: ] [scheduled:: ] #tag2";
     const expectedMetadata = {
       due: "2030-12-31",
       field1: "value1",

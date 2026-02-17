@@ -30,7 +30,11 @@ const target = await mddb
   .first();
 const dbCount = Number(count);
 const ok = Number.isFinite(dbCount) && dbCount >= fileCount && target;
-${includeArgs ? 'console.log(`${ok ? "ok" : "missing"}:${rest.join(",")}`);' : 'console.log(ok ? "ok" : "missing");'}
+${
+  includeArgs
+    ? 'console.log(`${ok ? "ok" : "missing"}:${rest.join(",")}`);'
+    : 'console.log(ok ? "ok" : "missing");'
+}
 await mddb.db.destroy();
 `;
 
@@ -151,14 +155,10 @@ await mddb.db.destroy();
     );
 
     try {
-      const result = spawnSync(
-        process.execPath,
-        [cliPath, dir1, dir2],
-        {
-          cwd: tmpDir,
-          encoding: "utf8",
-        }
-      );
+      const result = spawnSync(process.execPath, [cliPath, dir1, dir2], {
+        cwd: tmpDir,
+        encoding: "utf8",
+      });
 
       expect(result.status).toBe(0);
       expect(fs.existsSync(dbPath)).toBe(true);

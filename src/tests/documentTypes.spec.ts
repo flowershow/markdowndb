@@ -27,7 +27,7 @@ describe("Document Types Schema Validate Testing", () => {
     await mddb.db.destroy();
     fs.rmSync(dbPath, { force: true });
   });
-  
+
   test("Should check if the title field is created and save in db", async () => {
     await mddb.indexFolder({
       folderPath: pathToContentFixture,

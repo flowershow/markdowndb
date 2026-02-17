@@ -49,15 +49,16 @@ export async function indexFolder(
         const error: ZodError = (result as any).error;
 
         error.errors.forEach((err: any) => {
-          const errorMessage = `Error: In ${fileObject.file_path
-            } for the ${documentType} schema. \n    In "${err.path.join(
-              ","
-            )}" field: ${err.message}`;
+          const errorMessage = `Error: In ${
+            fileObject.file_path
+          } for the ${documentType} schema. \n    In "${err.path.join(
+            ","
+          )}" field: ${err.message}`;
           if (process.env.NODE_ENV !== "test") {
             console.error(errorMessage);
           }
         });
-        
+
         throw new Error(
           "Validation Failed: Unable to validate files against the specified scheme. Ensure that the file formats and content adhere to the specified scheme."
         );

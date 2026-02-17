@@ -47,7 +47,7 @@ describe("MarkdownDB - Nested WikiLink Bug", () => {
   test("existing same-directory wikilinks still work", async () => {
     // Test with blog1.mdx -> [[blog2]] -> blog/blog2.mdx (same directory)
     const pathToBlog = "__mocks__/content";
-    
+
     const dbConfig = {
       client: "sqlite3",
       connection: {
@@ -79,7 +79,7 @@ describe("MarkdownDB - Nested WikiLink Bug", () => {
     // This test ensures that if there's an exact path match, it takes priority
     // over a basename-only match
     const pathToBlog = "__mocks__/content";
-    
+
     const dbConfig = {
       client: "sqlite3",
       connection: {
@@ -91,7 +91,7 @@ describe("MarkdownDB - Nested WikiLink Bug", () => {
     await testMddb.init();
     await testMddb.indexFolder({ folderPath: pathToBlog });
 
-    // blog/blog1.mdx contains [[blog2]] which should match blog/blog2.mdx 
+    // blog/blog1.mdx contains [[blog2]] which should match blog/blog2.mdx
     // (same directory) even though there might be other "blog2" files elsewhere
     const blog1File = await testMddb.getFileByUrl("blog/blog1");
     const blog2File = await testMddb.getFileByUrl("blog/blog2");

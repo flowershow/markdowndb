@@ -319,7 +319,6 @@ interface Task {
   scheduled: string | null;
   list: string | null;
   metadata: MetaData | null;
-
 }
 
 class MddbTask {
@@ -383,4 +382,16 @@ class MddbTask {
   }
 }
 
-export { MetaData, File, MddbFile, Link, MddbLink, Tag, MddbTag, FileTag, MddbFileTag, Task, MddbTask };
+export {
+  MetaData,
+  File,
+  MddbFile,
+  Link,
+  MddbLink,
+  Tag,
+  MddbTag,
+  FileTag,
+  MddbFileTag,
+  Task,
+  MddbTask,
+};
