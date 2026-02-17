@@ -73,6 +73,21 @@ Use the npm `mddb` package to index Markdown files into an SQLite database. This
 npx mddb ./blog
 ```
 
+You can also index multiple directories at once:
+
+```bash
+# Index multiple directories into a single database
+npx mddb ./blog ./docs ./notes
+```
+
+If you pass a file path, the CLI prints the parsed JSON to stdout:
+
+```bash
+npx mddb ./blog/post.md
+```
+
+Non-markdown extensions still parse, but the CLI warns: "Is this a markdown file? Expected .md, .markdown, or .mdx."
+
 ### Watching for Changes
 
 To monitor files for changes and update the database accordingly, simply add the `--watch` flag to the command:
@@ -80,6 +95,21 @@ To monitor files for changes and update the database accordingly, simply add the
 npx mddb ./blog --watch
 ```
 This command will continuously watch for any modifications in the specified folder (`./blog`), automatically rebuilding the database whenever a change is detected.
+
+### Execute a Script with MarkdownDB APIs
+
+Run a JS module that can call the MarkdownDB APIs directly.  Arguments after the script path are passed through.
+Internally, `--exec` uses `node --import` to set up module resolution so `mddb` is available.
+
+```bash
+npx mddb --exec ./scripts/report.mjs --flag value
+```
+
+You can also pass a module over stdin:
+
+```bash
+cat ./scripts/report.mjs | npx mddb --exec -
+```
 
 ### Query your files with SQL...
 
@@ -195,6 +225,24 @@ const blogs = await mddb.getFiles({
   extensions: ["md", "mdx"],
 });
 ```
+
+
+### Process a single file or stream
+
+Use `processMarkdown` when you want to parse one markdown source without indexing a folder (e.g. in a Worker):
+
+```js
+import { processMarkdown } from "mddb";
+
+const source = "# Hello";
+const fileInfo = await processMarkdown(source, {
+  filePath: "posts/hello.md",
+  rootFolder: "posts",
+  pathToUrlResolver: (inputPath) => inputPath,
+});
+```
+
+You can pass a Node.js `Readable` stream or an `ArrayBuffer` as input. If you omit folder context, backlinks and folder-wide link resolution are not available.
 
 ## Computed Fields
 

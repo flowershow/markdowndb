@@ -90,7 +90,7 @@ function extractTags(text: string) {
   }
 
   return tags;
-};
+}
 
 function isValidTag(tag: string) {
   // Check if the tag follows the specified rules
@@ -193,18 +193,36 @@ export const extractWikiLinks = (ast: Root, options?: ParsingOptions) => {
 export const extractTasks = (ast: Root, metadata: { [key: string]: any }) => {
   const nodes = selectAll("*", ast);
   const tasks: Task[] = [];
-  const isKanban = metadata["kanban-list"] === "board";
+  const isKanban = metadata["kanban-plugin"] === "board";
   let list: string | null = null;
   nodes.map((node: any) => {
     if (node.type === "listItem") {
       const description = recursivelyExtractText(node).trim();
       const metadata = extractAllTaskMetadata(description);
-      const checked = node.checked !== null && node.checked !== undefined ? node.checked : null;
-      const created = metadata.created !== null && metadata.created !== undefined ? metadata.created : null;
-      const due = metadata.due !== null && metadata.due !== undefined ? metadata.due : null;
-      const completion = metadata.completion !== null && metadata.completion !== undefined ? metadata.completion : null;
-      const scheduled = metadata.scheduled !== null && metadata.scheduled !== undefined ? metadata.scheduled : null;
-      const start = metadata.start !== null && metadata.start !== undefined ? metadata.start : null;
+      const checked =
+        node.checked !== null && node.checked !== undefined
+          ? node.checked
+          : null;
+      const created =
+        metadata.created !== null && metadata.created !== undefined
+          ? metadata.created
+          : null;
+      const due =
+        metadata.due !== null && metadata.due !== undefined
+          ? metadata.due
+          : null;
+      const completion =
+        metadata.completion !== null && metadata.completion !== undefined
+          ? metadata.completion
+          : null;
+      const scheduled =
+        metadata.scheduled !== null && metadata.scheduled !== undefined
+          ? metadata.scheduled
+          : null;
+      const start =
+        metadata.start !== null && metadata.start !== undefined
+          ? metadata.start
+          : null;
 
       if (checked !== null) {
         tasks.push({
@@ -237,9 +255,9 @@ function recursivelyExtractText(node: any) {
   } else {
     return "";
   }
-};
+}
 
-export function extractAllTaskMetadata(description: string) : MetaData  {
+export function extractAllTaskMetadata(description: string): MetaData {
   // Extract metadata fields from the description with the form [field:: value]
   // where field is the name of the metadata without spaces and value is the value of the metadata
   // There can be multiple metadata fields in the description
@@ -259,12 +277,7 @@ export function extractAllTaskMetadata(description: string) : MetaData  {
     return metadata;
   } else {
     return {};
-  } 
-
-
-
-
-  
+  }
 }
 
 // links = extractWikiLinks({

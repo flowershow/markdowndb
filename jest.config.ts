@@ -3,6 +3,7 @@ import type { JestConfigWithTsJest } from "ts-jest";
 const jestConfig: JestConfigWithTsJest = {
   displayName: "markdowndb",
   testEnvironment: "node",
+  testPathIgnorePatterns: ["/node_modules/", "/\\.worktrees/"],
   extensionsToTreatAsEsm: [".ts"],
   moduleNameMapper: {
     "(.+)\\.js$": "$1",

@@ -20,6 +20,9 @@ const schemas = {
   }),
 };
 
+const contentPath = "./content";
+const ignorePatterns = ["**/node_modules/**", "**/.git/**"];
+
 // Index the folder with the files
 await client.indexFolder({
   folderPath: contentPath,

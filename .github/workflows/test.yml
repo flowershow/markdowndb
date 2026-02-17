@@ -12,12 +12,10 @@ jobs:
     name: Run tests on Node ${{ matrix.node }}
     strategy:
       matrix:
-        node: [16, 18]
+        node: [20]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
+        uses: actions/checkout@v4
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
