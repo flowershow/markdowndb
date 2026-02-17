@@ -1,6 +1,5 @@
 import { MarkdownDB } from "mddb";
 
-// MySQL configuration
 const client = new MarkdownDB({
   client: "mysql2",
   connection: {
@@ -14,16 +13,11 @@ const client = new MarkdownDB({
 
 const mddb = await client.init();
 
-// Index markdown files
 await mddb.indexFolder({
   folderPath: process.argv[2] || "./content",
 });
 
-// Query and display indexed files
 const files = await mddb.getFiles();
-console.log(`\nIndexed ${files.length} files in MySQL database`);
-console.log(JSON.stringify(files, null, 2));
+console.log(`\nIndexed ${files.length} files in MySQL`);
 
-// Clean up
 await mddb.db.destroy();
-process.exit(0);

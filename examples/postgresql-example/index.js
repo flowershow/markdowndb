@@ -1,6 +1,5 @@
 import { MarkdownDB } from "mddb";
 
-// PostgreSQL configuration
 const client = new MarkdownDB({
   client: "pg",
   connection: {
@@ -14,16 +13,11 @@ const client = new MarkdownDB({
 
 const mddb = await client.init();
 
-// Index markdown files
 await mddb.indexFolder({
   folderPath: process.argv[2] || "./content",
 });
 
-// Query and display indexed files
 const files = await mddb.getFiles();
-console.log(`\nIndexed ${files.length} files in PostgreSQL database`);
-console.log(JSON.stringify(files, null, 2));
+console.log(`\nIndexed ${files.length} files in PostgreSQL`);
 
-// Clean up
 await mddb.db.destroy();
-process.exit(0);

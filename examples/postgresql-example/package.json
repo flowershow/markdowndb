@@ -1,25 +1,12 @@
 {
   "name": "postgresql-example",
   "version": "1.0.0",
-  "description": "Example of using MarkdownDB with PostgreSQL",
   "type": "module",
-  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
-  "keywords": [
-    "markdowndb",
-    "postgresql",
-    "postgres",
-    "markdown"
-  ],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "mddb": "^0.9.5",
     "pg": "^8.11.0"
-  },
-  "devDependencies": {
-    "dotenv": "^16.0.0"
   }
 }
