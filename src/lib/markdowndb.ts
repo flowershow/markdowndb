@@ -1,7 +1,13 @@
 import path from "path";
 import knex, { Knex } from "knex";
 
-import { MddbFile, MddbTag, MddbLink, MddbFileTag, MddbTask } from "./schema.js";
+import {
+  MddbFile,
+  MddbTag,
+  MddbLink,
+  MddbFileTag,
+  MddbTask,
+} from "./schema.js";
 import { indexFolder, shouldIncludeFile } from "./indexFolder.js";
 import {
   resetDatabaseTables,
@@ -188,7 +194,7 @@ export class MarkdownDB {
     configFilePath?: string;
   }) {
     const config = customConfig || (await loadConfig(configFilePath)) || {};
-    
+
     // Collect files from all folders
     const allFileObjects: FileInfo[] = [];
     for (const folderPath of folderPaths) {
@@ -200,7 +206,7 @@ export class MarkdownDB {
       );
       allFileObjects.push(...fileObjects);
     }
-    
+
     // Save all files to disk at once
     await this.saveDataToDisk(allFileObjects);
 
@@ -211,7 +217,7 @@ export class MarkdownDB {
       });
 
       const computedFields = config.computedFields || [];
-      
+
       // Collect all file paths from all folders for permalink resolution
       const allFilePathsToIndex: string[] = [];
       for (const folderPath of folderPaths) {
@@ -245,8 +251,15 @@ export class MarkdownDB {
 
         // Determine which folder this file belongs to
         // Sort by length descending to match the most specific path first
-        const sortedFolderPaths = [...folderPaths].sort((a, b) => b.length - a.length);
-        const folderPath = sortedFolderPaths.find(fp => filePath.startsWith(fp + path.sep) || filePath.startsWith(fp + '/')) || folderPaths[0];
+        const sortedFolderPaths = [...folderPaths].sort(
+          (a, b) => b.length - a.length
+        );
+        const folderPath =
+          sortedFolderPaths.find(
+            (fp) =>
+              filePath.startsWith(fp + path.sep) ||
+              filePath.startsWith(fp + "/")
+          ) || folderPaths[0];
 
         const sourceStream = fs.createReadStream(filePath);
         const fileObject = await processMarkdown(sourceStream, {

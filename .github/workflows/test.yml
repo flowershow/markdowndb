@@ -12,7 +12,7 @@ jobs:
     name: Run tests on Node ${{ matrix.node }}
     strategy:
       matrix:
-        node: [16, 18]
+        node: [20]
     steps:
       - name: Checkout
         uses: actions/checkout@v4

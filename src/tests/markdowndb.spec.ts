@@ -57,11 +57,11 @@ describe("MarkdownDB - default config", () => {
       expect(dbFile2).not.toBeNull();
     });
 
-    test('test can get file canvas by url', async () => {
-      const dbFile1 = await mddb.getFileByUrl('hi.canvas');
+    test("test can get file canvas by url", async () => {
+      const dbFile1 = await mddb.getFileByUrl("hi.canvas");
       expect(dbFile1).not.toBeNull();
-      expect(dbFile1.url_path).toBe('hi.canvas');
-      expect(dbFile1.extension).toBe('canvas');
+      expect(dbFile1.url_path).toBe("hi.canvas");
+      expect(dbFile1.extension).toBe("canvas");
     });
   });
 
