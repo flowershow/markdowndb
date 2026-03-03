@@ -1,0 +1,12 @@
+{
+  "name": "postgresql-example",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mddb": "^0.9.5",
+    "pg": "^8.13.0"
+  }
+}

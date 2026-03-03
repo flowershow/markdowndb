@@ -25,6 +25,12 @@ import { FileInfo, processMarkdown } from "./process.js";
 import chokidar from "chokidar";
 import { recursiveWalkDir } from "./recursiveWalkDir.js";
 import { loadConfig } from "./loadConfig.js";
+import {
+  addLikeQuery,
+  addJsonFieldQuery,
+  addJsonFieldIsNullQuery,
+  addJsonFieldLikeQuery,
+} from "./dbAdapters.js";
 
 const defaultFilePathToUrl = (filePath: string) => {
   let url = filePath
@@ -362,6 +368,7 @@ export class MarkdownDB {
     frontmatter?: Record<string, string | number | boolean>;
   }): Promise<MddbFile[]> {
     const { filetypes, tags, extensions, folder, frontmatter } = query || {};
+    const clientType = this.config.client as string;
 
     const files = await this.db
       // TODO join only if tags are specified ?
@@ -369,7 +376,7 @@ export class MarkdownDB {
       .where((builder) => {
         // TODO temporary solution before we have a proper way to filter files by and assign file types
         if (folder) {
-          builder.whereLike("url_path", `${folder}/%`);
+          addLikeQuery(builder, "url_path", `${folder}/%`, clientType);
         }
         if (tags) {
           builder.whereIn("tag", tags);
@@ -386,27 +393,49 @@ export class MarkdownDB {
         if (frontmatter) {
           Object.entries(frontmatter).forEach(([key, value]) => {
             if (typeof value === "string" || typeof value === "number") {
-              builder.whereRaw(`json_extract(metadata, '$.${key}') = ?`, [
-                value,
-              ]);
+              addJsonFieldQuery(
+                builder,
+                clientType,
+                "metadata",
+                key,
+                "=",
+                value
+              );
             } else if (typeof value === "boolean") {
               if (value) {
-                builder.whereRaw(`json_extract(metadata, '$.${key}') = ?`, [
-                  true,
-                ]);
+                addJsonFieldQuery(
+                  builder,
+                  clientType,
+                  "metadata",
+                  key,
+                  "=",
+                  true
+                );
               } else {
                 builder.where(function () {
-                  this.whereRaw(`json_extract(metadata, '$.${key}') = ?`, [
-                    false,
-                  ]).orWhereRaw(`json_extract(metadata, '$.${key}') IS NULL`);
+                  addJsonFieldQuery(
+                    this,
+                    clientType,
+                    "metadata",
+                    key,
+                    "=",
+                    false
+                  );
+                  this.orWhere(function () {
+                    addJsonFieldIsNullQuery(this, clientType, "metadata", key);
+                  });
                 });
               }
             }
             // To check if the provided value exists in an array inside the JSON
             else {
-              builder.whereRaw(`json_extract(metadata, '$.${key}') LIKE ?`, [
-                `%${value}%`,
-              ]);
+              addJsonFieldLikeQuery(
+                builder,
+                clientType,
+                "metadata",
+                key,
+                `%${value}%`
+              );
             }
           });
         }

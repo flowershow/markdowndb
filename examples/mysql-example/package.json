@@ -1,0 +1,12 @@
+{
+  "name": "mysql-example",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mddb": "^0.9.5",
+    "mysql2": "^3.0.0"
+  }
+}
