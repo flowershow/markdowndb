@@ -1,0 +1,25 @@
+{
+  "title": "MarkdownDB",
+  "description": "The missing interface from your Markdown files to a blog/digital garden/notion alternative and more.",
+  "analytics": "G-4BEZJF9CLJ",
+  "showSidebar": false,
+  "showToc": false,
+  "theme": {
+    "defaultMode": "light",
+    "showModeSwitch": true
+  },
+  "nav": {
+    "title": "MarkdownDB",
+    "links": [
+      { "href": "/#quick-start", "name": "Quickstart" },
+      { "href": "/docs", "name": "Docs" },
+      { "href": "/#features", "name": "Features" },
+      { "href": "/#roadmap", "name": "Roadmap" },
+      { "href": "https://discord.gg/JChzM5VdFn", "name": "Help" }
+    ],
+    "social": [
+      { "label": "github", "href": "https://github.com/datopian/markdowndb" },
+      { "label": "discord", "href": "https://discord.gg/JChzM5VdFn" }
+    ]
+  }
+}
