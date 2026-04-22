@@ -113,7 +113,7 @@ Every hyperlink (`[text](url)`) and wiki-style link (`[[page]]`) found in a file
 
 ## Task
 
-Tasks (`- [ ] …` and `- [x] …` list items) are extracted and stored in the `tasks` table. MarkdownDB also recognises inline metadata fields in the form `[field:: value]`.
+Tasks (`- [ ] …` and `- [x] …` list items) are extracted and stored in the `tasks` table. MarkdownDB also recognizes inline metadata fields in the form `[field:: value]`.
 
 | Field | Type | Description |
 |-------|------|-------------|
