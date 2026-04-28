@@ -144,11 +144,9 @@ await mddb.db.destroy();
       expect(waited.result.status).toBe(0);
       expect(waited.result.stdout.trim()).toBe("ok");
 
-      // The waited run should take at least waitMs longer than the baseline,
-      // proving the wait actually elapsed (not just startup overhead).
-      expect(waited.duration - baseline.duration).toBeGreaterThanOrEqual(
-        waitMs - 100
-      );
+      // The database age includes CLI startup time after utimesSync(), so the
+      // waited run is not guaranteed to exceed the baseline by waitMs.
+      expect(waited.duration).toBeGreaterThanOrEqual(waitMs - 100);
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true });
     }
