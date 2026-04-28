@@ -119,23 +119,36 @@ await mddb.db.destroy();
       expect(build.status).toBe(0);
 
       const dbPath = path.join(tmpDir, "markdown.db");
-      const now = new Date();
-      fs.utimesSync(dbPath, now, now);
 
-      const start = Date.now();
-      const result = spawnSync(
-        process.execPath,
-        [cliPath, "--exec", "--wait-db-ms", "200", tmpScript, sampleDir],
-        {
-          encoding: "utf8",
-          cwd: tmpDir,
-        }
+      const measureExec = (extraArgs: string[]) => {
+        const now = new Date();
+        fs.utimesSync(dbPath, now, now);
+        const start = Date.now();
+        const result = spawnSync(
+          process.execPath,
+          [cliPath, "--exec", ...extraArgs, tmpScript, sampleDir],
+          {
+            encoding: "utf8",
+            cwd: tmpDir,
+          }
+        );
+        return { duration: Date.now() - start, result };
+      };
+
+      const baseline = measureExec([]);
+      expect(baseline.result.status).toBe(0);
+      expect(baseline.result.stdout.trim()).toBe("ok");
+
+      const waitMs = 600;
+      const waited = measureExec(["--wait-db-ms", String(waitMs)]);
+      expect(waited.result.status).toBe(0);
+      expect(waited.result.stdout.trim()).toBe("ok");
+
+      // The waited run should take at least waitMs longer than the baseline,
+      // proving the wait actually elapsed (not just startup overhead).
+      expect(waited.duration - baseline.duration).toBeGreaterThanOrEqual(
+        waitMs - 100
       );
-      const duration = Date.now() - start;
-
-      expect(result.status).toBe(0);
-      expect(result.stdout.trim()).toBe("ok");
-      expect(duration).toBeGreaterThanOrEqual(150);
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true });
     }
