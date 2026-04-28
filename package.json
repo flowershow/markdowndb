@@ -50,6 +50,7 @@
   "dependencies": {
     "@portaljs/remark-wiki-link": "^1.0.4",
     "@types/micromatch": "^4.0.6",
+    "@types/node": "^20.1.0",
     "chokidar": "^3.5.3",
     "gray-matter": "^4.0.3",
     "knex": "^2.4.2",
@@ -58,6 +59,7 @@
     "remark-gfm": "^3.0.1",
     "remark-parse": "^10.0.1",
     "sqlite3": "^5.1.6",
+    "unified": "^10.1.2",
     "unist-util-select": "^4.0.3",
     "zod": "^3.22.4"
   },
