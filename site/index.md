@@ -4,13 +4,18 @@ layout: plain
 ---
 
 <div class="mx-auto max-w-7xl px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-    <div class="text-center">
-      <h1 class="text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl dark:text-white">A rich API to your markdown files in seconds.</h1>
-      <p class="mt-8 text-pretty text-lg font-medium text-gray-600 sm:text-xl/8 dark:text-gray-400">An open JS library to turn markdown files into structured, queryable data (SQL and JSON). Build rich markdown-powered sites fast and reliably.</p>
-      <div class="mt-10 flex items-center justify-center gap-x-6">
+  <div class="mx-auto py-16 sm:py-24 lg:py-28 flex flex-col lg:flex-row lg:items-center lg:gap-x-12">
+    <div class="flex-1 max-w-xl">
+      <h1 class="text-balance text-4xl font-semibold tracking-tight text-gray-900 sm:text-6xl dark:text-white">A rich API to your markdown files in seconds.</h1>
+      <p class="mt-6 text-pretty text-lg font-medium text-gray-600 sm:text-xl/8 dark:text-gray-400">An open JS library to turn markdown files into structured, queryable data (SQL and JSON). Build rich markdown-powered sites fast and reliably.</p>
+      <div class="mt-8 flex items-center gap-x-6">
         <a href="#quick-start" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500">Quick start</a>
         <a href="https://github.com/datopian/markdowndb" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Star on GitHub <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="mt-10 lg:mt-0 flex-1">
+      <div class="relative w-full overflow-hidden rounded-xl shadow-xl" style="padding-bottom: 56.25%">
+        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/VwMYABHEGhw?si=VyEjQ5eci8yhzFeu" title="MarkdownDB demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
     </div>
   </div>
