@@ -1,5 +1,5 @@
 ---
-title: MarkdownDB
+layout: plain
 ---
 
 <div className="max-w-8xl mx-auto px-4 md:px-8">
