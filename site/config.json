@@ -6,7 +6,7 @@
   "showToc": false,
   "theme": {
     "defaultMode": "light",
-    "showModeSwitch": true
+    "showModeSwitch": false
   },
   "nav": {
     "title": "MarkdownDB",
