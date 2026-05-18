@@ -23,7 +23,7 @@ layout: plain
 
 <!-- Features / Advantages -->
 
-<div class="py-16" id="features">
+<div class="mx-auto max-w-6xl py-16 px-6 lg:px-8" id="features">
   <div class="text-center">
     <p class="text-base font-semibold text-indigo-600">Features</p>
     <h2 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Key Advantages of MarkdownDB</h2>
@@ -58,7 +58,7 @@ layout: plain
 
 <!-- Key Features with code examples -->
 
-<div class="py-16">
+<div class="mx-auto max-w-6xl py-16 px-6 lg:px-8">
   <div class="text-center">
     <p class="text-base font-semibold text-indigo-600">Features</p>
     <h2 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Key Features of MarkdownDB</h2>
@@ -174,7 +174,7 @@ client.indexFolder({
 
 <!-- Vision -->
 
-<div class="py-16">
+<div class="mx-auto max-w-6xl py-16 px-6 lg:px-8">
   <div class="text-center max-w-3xl mx-auto">
     <p class="text-base font-semibold text-indigo-600">Our vision</p>
     <h2 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Unified Content Management</h2>
@@ -186,7 +186,7 @@ client.indexFolder({
 
 <!-- Quick Start -->
 
-<div class="py-16" id="quick-start">
+<div class="mx-auto max-w-6xl py-16 px-6 lg:px-8" id="quick-start">
   <div class="text-center">
     <p class="text-base font-semibold text-indigo-600">Quickstart</p>
     <h2 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Start using MarkdownDB in just a few steps</h2>
@@ -284,7 +284,7 @@ const blogFiles = await mddb.getFiles({
 
 <!-- Roadmap -->
 
-<div class="py-16 max-w-3xl mx-auto" id="roadmap">
+<div class="py-16 px-6 lg:px-8 max-w-3xl mx-auto" id="roadmap">
   <div class="text-center">
     <p class="text-base font-semibold text-indigo-600">Roadmap</p>
     <h2 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">What's new and what's coming</h2>
