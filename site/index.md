@@ -150,35 +150,7 @@ layout: plain
             <h3 className="text-lg font-medium text-gray-900">Task extraction</h3>
             <p className="mt-2 text-sm text-gray-500">Extract tasks from markdown files easily</p>
           </div>
-          <div className="lg:col-span-4 xl:col-span-4"><button type="button" aria-hidden="true"
-              style={{position: "fixed" , top: "1px" , left: "1px" , width: "1px" , height: "0px" , padding: "0px" ,
-              margin: "-1px" , overflow: "hidden" , clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" ,
-              borderWidth: "0px" }}></button>
-            <div className="rounded-md bg-neutral-50 border border-1 border-neutral-100">
-              <div aria-label="Select file to view" className="flex flex-nowrap overflow-x-auto" role="tablist"
-                aria-orientation="horizontal">
-                <div
-                  className="flex h-10 items-center space-x-1.5 border-b border-neutral-100 px-4 dark:border-neutral-900">
-                  <span className="h-3 w-3 rounded-full bg-red-400 dark:bg-slate-600"></span><span
-                    className="h-3 w-3 rounded-full bg-amber-400 dark:bg-slate-600"></span><span
-                    className="h-3 w-3 rounded-full bg-green-400 dark:bg-slate-600"></span></div>
-                <div className="grow border-b border-neutral-100 dark:border-neutral-900"></div>
-              </div>
-              <div className="max-h-[600px] overflow-y-hidden">
-                <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:ro:"
-                  role="tabpanel" tabIndex="0" data-headlessui-state="selected">
-                  <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-markdown" style={{whiteSpace: "pre"}}><span className="token list punctuation">-</span><span className=""> [x] do laundry</span></code></pre>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="lg:col-span-4 xl:col-span-4"><button type="button" aria-hidden="true"
-              style={{position: "fixed" , top: "1px" , left: "1px" , width: "1px" , height: "0px" , padding: "0px" ,
-              margin: "-1px" , overflow: "hidden" , clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" ,
-              borderWidth: "0px" }}></button>
+          <div className="lg:col-span-4 xl:col-span-4">
             <div className="rounded-md bg-neutral-50 border border-1 border-neutral-100">
               <div aria-label="Select file to view" className="flex flex-nowrap overflow-x-auto" role="tablist"
                 aria-orientation="horizontal">
@@ -193,17 +165,15 @@ layout: plain
                 <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:rp:"
                   role="tabpanel" tabIndex="0" data-headlessui-state="selected">
                   <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-js" style={{whiteSpace: "pre"}}><span className="">
-</span><span className=""></span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">  </span><span className="token operator">...</span><span className="">
-</span><span className="">  </span><span className="token string-property property">"metadata"</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">    </span><span className="token operator">...</span><span className="">
-</span><span className="">    </span><span className="token string-property property">"tasks"</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">[</span><span className="token punctuation">{'{'}</span><span className="token literal-property property">desription</span><span className="token operator">:</span><span className=""> </span><span className="token string">"do laundry"</span><span className="token punctuation">,</span><span className=""> </span><span className="token literal-property property">checked</span><span className="token operator">:</span><span className=""> </span><span className="token boolean">true</span><span className="token punctuation">}</span><span className="token punctuation">]</span><span className="">
-</span><span className="">  </span><span className="token punctuation">}</span><span className="token punctuation">,</span><span className="">
-</span><span className="">  </span><span className="token operator">...</span><span className="">
-</span><span className=""></span><span className="token punctuation">}</span><span className="token punctuation">,</span><span className="">
-</span>      </code></pre>
+                    <pre><code className="language-js">
+{'{'}
+  ...
+  "metadata": {'{'}
+    ...
+    "tasks": [{'{'}desription: "do laundry", checked: true}]
+  },
+  ...
+},</code></pre>
                   </div>
                 </div>
               </div>
@@ -216,40 +186,7 @@ layout: plain
             <p className="mt-2 text-sm text-gray-500">Extract structured markdown data from your markdown frontmatter.
             </p>
           </div>
-          <div className="lg:col-span-4 xl:col-span-4"><button type="button" aria-hidden="true"
-              style={{position: "fixed" , top: "1px" , left: "1px" , width: "1px" , height: "0px" , padding: "0px" ,
-              margin: "-1px" , overflow: "hidden" , clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" ,
-              borderWidth: "0px" }}></button>
-            <div className="rounded-md bg-neutral-50 border border-1 border-neutral-100">
-              <div aria-label="Select file to view" className="flex flex-nowrap overflow-x-auto" role="tablist"
-                aria-orientation="horizontal">
-                <div
-                  className="flex h-10 items-center space-x-1.5 border-b border-neutral-100 px-4 dark:border-neutral-900">
-                  <span className="h-3 w-3 rounded-full bg-red-400 dark:bg-slate-600"></span><span
-                    className="h-3 w-3 rounded-full bg-amber-400 dark:bg-slate-600"></span><span
-                    className="h-3 w-3 rounded-full bg-green-400 dark:bg-slate-600"></span></div>
-                <div className="grow border-b border-neutral-100 dark:border-neutral-900"></div>
-              </div>
-              <div className="max-h-[600px] overflow-y-hidden">
-                <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:rq:"
-                  role="tabpanel" tabIndex="0" data-headlessui-state="selected">
-                  <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-markdown" style={{whiteSpace: "pre"}}><span className="token front-matter-block punctuation">---</span><span className="token front-matter-block">
-</span><span className="token front-matter-block"></span><span className="token front-matter-block front-matter yaml language-yaml">title: Example Post
-</span><span className="token front-matter-block front-matter yaml language-yaml">date: 2023-01-01</span><span className="token front-matter-block">
-</span><span className="token front-matter-block"></span><span className="token front-matter-block punctuation">---</span><span className="">
-</span>
-<span className=""></span><span className="token title important punctuation">#</span><span className="token title important"> Content</span></code></pre>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="lg:col-span-4 xl:col-span-4"><button type="button" aria-hidden="true"
-              style={{position: "fixed" , top: "1px" , left: "1px" , width: "1px" , height: "0px" , padding: "0px" ,
-              margin: "-1px" , overflow: "hidden" , clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" ,
-              borderWidth: "0px" }}></button>
+          <div className="lg:col-span-4 xl:col-span-4">
             <div className="rounded-md bg-neutral-50 border border-1 border-neutral-100">
               <div aria-label="Select file to view" className="flex flex-nowrap overflow-x-auto" role="tablist"
                 aria-orientation="horizontal">
@@ -264,18 +201,16 @@ layout: plain
                 <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:rr:"
                   role="tabpanel" tabIndex="0" data-headlessui-state="selected">
                   <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-js" style={{whiteSpace: "pre"}}><span className="">
-</span><span className=""></span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">  </span><span className="token operator">...</span><span className="">
-</span><span className="">  </span><span className="token string-property property">"metadata"</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">    </span><span className="token operator">...</span><span className="">
-</span><span className="">    </span><span className="token string-property property">"title"</span><span className="token operator">:</span><span className=""> </span><span className="token string">"Example Post"</span><span className="token punctuation">,</span><span className="">
-</span><span className="">    </span><span className="token string-property property">"date"</span><span className="token operator">:</span><span className=""> </span><span className="token string">"2023-01-01"</span><span className="">
-</span><span className="">  </span><span className="token punctuation">}</span><span className="token punctuation">,</span><span className="">
-</span><span className="">  </span><span className="token operator">...</span><span className="">
-</span><span className=""></span><span className="token punctuation">}</span><span className="">
-</span>      </code></pre>
+                    <pre><code className="language-js">
+{'{'}
+  ...
+  "metadata": {'{'}
+    ...
+    "title": "Example Post",
+    "date": "2023-01-01"
+  },
+  ...
+}</code></pre>
                   </div>
                 </div>
               </div>
@@ -288,41 +223,7 @@ layout: plain
             <p className="mt-2 text-sm text-gray-500">Extract tags from markdown body and from `tags` frontmatter field.
             </p>
           </div>
-          <div className="lg:col-span-4 xl:col-span-4"><button type="button" aria-hidden="true"
-              style={{position: "fixed" , top: "1px" , left: "1px" , width: "1px" , height: "0px" , padding: "0px" ,
-              margin: "-1px" , overflow: "hidden" , clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" ,
-              borderWidth: "0px" }}></button>
-            <div className="rounded-md bg-neutral-50 border border-1 border-neutral-100">
-              <div aria-label="Select file to view" className="flex flex-nowrap overflow-x-auto" role="tablist"
-                aria-orientation="horizontal">
-                <div
-                  className="flex h-10 items-center space-x-1.5 border-b border-neutral-100 px-4 dark:border-neutral-900">
-                  <span className="h-3 w-3 rounded-full bg-red-400 dark:bg-slate-600"></span><span
-                    className="h-3 w-3 rounded-full bg-amber-400 dark:bg-slate-600"></span><span
-                    className="h-3 w-3 rounded-full bg-green-400 dark:bg-slate-600"></span></div>
-                <div className="grow border-b border-neutral-100 dark:border-neutral-900"></div>
-              </div>
-              <div className="max-h-[600px] overflow-y-hidden">
-                <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:rs:"
-                  role="tabpanel" tabIndex="0" data-headlessui-state="selected">
-                  <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-markdown" style={{whiteSpace: "pre"}}><span className="token front-matter-block punctuation">---</span><span className="token front-matter-block">
-</span><span className="token front-matter-block"></span><span className="token front-matter-block front-matter yaml language-yaml">tags: frontmatter_tag_1, frontmatter_tag_2</span><span className="token front-matter-block">
-</span><span className="token front-matter-block"></span><span className="token front-matter-block punctuation">---</span><span className="">
-</span><span className=""></span><span className="token title important punctuation">#</span><span className="token title important"> Some heading</span><span className="">
-</span><span className=""></span><span className="token title important punctuation">#</span><span className="token title important">body_tag</span><span className="">
-</span>
-Lorem ipsum #tag1 #tag2 #tag3</code></pre>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="lg:col-span-4 xl:col-span-4"><button type="button" aria-hidden="true"
-              style={{position: "fixed" , top: "1px" , left: "1px" , width: "1px" , height: "0px" , padding: "0px" ,
-              margin: "-1px" , overflow: "hidden" , clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" ,
-              borderWidth: "0px" }}></button>
+          <div className="lg:col-span-4 xl:col-span-4">
             <div className="rounded-md bg-neutral-50 border border-1 border-neutral-100">
               <div aria-label="Select file to view" className="flex flex-nowrap overflow-x-auto" role="tablist"
                 aria-orientation="horizontal">
@@ -337,18 +238,16 @@ Lorem ipsum #tag1 #tag2 #tag3</code></pre>
                 <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:rt:"
                   role="tabpanel" tabIndex="0" data-headlessui-state="selected">
                   <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-js" style={{whiteSpace: "pre"}}><span className="">
-</span><span className=""></span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">  </span><span className="token operator">...</span><span className="">
-</span><span className="">  </span><span className="token string-property property">"metadata"</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">    </span><span className="token operator">...</span><span className="">
-</span><span className="">    </span><span className="token string-property property">"tags"</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">[</span><span className="token string">"frontmatter_tag_1"</span><span className="token punctuation">,</span><span className=""> </span><span className="token string">"frontmatter_tag_2"</span><span className="token punctuation">]</span><span className="">
-</span><span className="">  </span><span className="token punctuation">}</span><span className="token punctuation">,</span><span className="">
-</span><span className="">  </span><span className="token string-property property">"tags"</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">[</span><span className="token string">"body_tag"</span><span className="token punctuation">,</span><span className=""> </span><span className="token string">"frontmatter_tag_1"</span><span className="token punctuation">,</span><span className=""> </span><span className="token string">"frontmatter_tag_2"</span><span className=""> </span><span className="token punctuation">]</span><span className="">
-</span><span className="">  </span><span className="token operator">...</span><span className="">
-</span><span className=""></span><span className="token punctuation">}</span><span className="">
-</span>      </code></pre>
+                    <pre><code className="language-js">
+{'{'}
+  ...
+  "metadata": {'{'}
+    ...
+    "tags": ["frontmatter_tag_1", "frontmatter_tag_2"]
+  },
+  "tags": ["body_tag", "frontmatter_tag_1", "frontmatter_tag_2" ]
+  ...
+}</code></pre>
                   </div>
                 </div>
               </div>
@@ -389,33 +288,28 @@ Lorem ipsum #tag1 #tag2 #tag3</code></pre>
                   role="tabpanel" tabIndex="0" data-headlessui-state="selected"
                   aria-labelledby="headlessui-tabs-tab-:ru:">
                   <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-js" style={{whiteSpace: "pre"}}><span className="">
-</span><span className="">  </span><span className="token keyword">const</span><span className=""> </span><span className="token function-variable function">addTitle</span><span className=""> </span><span className="token operator">=</span><span className=""> </span><span className="token punctuation">(</span><span className="token parameter">fileInfo</span><span className="token parameter punctuation">,</span><span className="token parameter"> ast</span><span className="token punctuation">)</span><span className=""> </span><span className="token operator">=&gt;</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">    </span><span className="token comment">// Find the first header node in the AST</span><span className="">
-</span><span className="">    </span><span className="token keyword">const</span><span className=""> headerNode </span><span className="token operator">=</span><span className=""> ast</span><span className="token punctuation">.</span><span className="">children</span><span className="token punctuation">.</span><span className="token function">find</span><span className="token punctuation">(</span><span className="token punctuation">(</span><span className="token parameter">node</span><span className="token punctuation">)</span><span className=""> </span><span className="token operator">=&gt;</span><span className=""> node</span><span className="token punctuation">.</span><span className="">type </span><span className="token operator">===</span><span className=""> </span><span className="token string">"heading"</span><span className="token punctuation">)</span><span className="token punctuation">;</span><span className="">
-</span>  
-<span className="">    </span><span className="token comment">// Extract the text content from the header node</span><span className="">
-</span><span className="">    </span><span className="token keyword">const</span><span className=""> title </span><span className="token operator">=</span><span className=""> headerNode
-</span><span className="">      </span><span className="token operator">?</span><span className=""> headerNode</span><span className="token punctuation">.</span><span className="">children</span><span className="token punctuation">.</span><span className="token function">map</span><span className="token punctuation">(</span><span className="token punctuation">(</span><span className="token parameter">child</span><span className="token punctuation">)</span><span className=""> </span><span className="token operator">=&gt;</span><span className=""> child</span><span className="token punctuation">.</span><span className="">value</span><span className="token punctuation">)</span><span className="token punctuation">.</span><span className="token function">join</span><span className="token punctuation">(</span><span className="token string">""</span><span className="token punctuation">)</span><span className="">
-</span><span className="">      </span><span className="token operator">:</span><span className=""> </span><span className="token string">""</span><span className="token punctuation">;</span><span className="">
-</span>  
-<span className="">    </span><span className="token comment">// Add the title property to the fileInfo</span><span className="">
-</span><span className="">    fileInfo</span><span className="token punctuation">.</span><span className="">title </span><span className="token operator">=</span><span className=""> title</span><span className="token punctuation">;</span><span className="">
-</span><span className="">  </span><span className="token punctuation">}</span><span className="token punctuation">;</span><span className="">
-</span>
-<span className="">  client</span><span className="token punctuation">.</span><span className="token function">indexFolder</span><span className="token punctuation">(</span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">    </span><span className="token string-property property">"folderPath"</span><span className="token operator">:</span><span className=""> </span><span className="token string">"PATH_TO_FOLDER"</span><span className="token punctuation">,</span><span className="">
-</span><span className="">    </span><span className="token string-property property">"customConfig"</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">      </span><span className="token string-property property">"computedFields"</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">[</span><span className="">addTitle</span><span className="token punctuation">]</span><span className="">
-</span><span className="">    </span><span className="token punctuation">}</span><span className="">
-</span><span className="">  </span><span className="token punctuation">}</span><span className="token punctuation">)</span><span className="">
-</span>        </code></pre>
+                    <pre><code className="language-js">
+  const addTitle = (fileInfo, ast) =&gt; {'{'}
+    // Find the first header node in the AST
+    const headerNode = ast.children.find((node) =&gt; node.type === "heading");
+  
+    // Extract the text content from the header node
+    const title = headerNode
+      ? headerNode.children.map((child) =&gt; child.value).join("")
+      : "";
+  
+    // Add the title property to the fileInfo
+    fileInfo.title = title;
+  };
+
+  client.indexFolder({'{'}
+    "folderPath": "PATH_TO_FOLDER",
+    "customConfig": {'{'}
+      "computedFields": [addTitle]
+    }
+  })</code></pre>
                   </div>
-                </div><span id="headlessui-tabs-panel-:r11:" role="tabpanel" tabIndex="-1"
-                  aria-labelledby="headlessui-tabs-tab-:rv:" style={{position: "fixed" , top: "1px" , left: "1px" ,
-                  width: "1px" , height: "0px" , padding: "0px" , margin: "-1px" , overflow: "hidden" ,
-                  clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" , borderWidth: "0px" }}></span>
+                </div>
               </div>
             </div>
           </div>
@@ -437,14 +331,12 @@ Lorem ipsum #tag1 #tag2 #tag3</code></pre>
                 <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:r12:"
                   role="tabpanel" tabIndex="0" data-headlessui-state="selected">
                   <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-js" style={{whiteSpace: "pre"}}><span className="">
-</span><span className=""></span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">  </span><span className="token operator">...</span><span className="">
-</span><span className="">  </span><span className="token literal-property property">title</span><span className="token operator">:</span><span className=""> </span><span className="token string">"Example Markdown File"</span><span className="">
-</span><span className="">  </span><span className="token operator">...</span><span className="">
-</span><span className=""></span><span className="token punctuation">}</span><span className="">
-</span>        </code></pre>
+                    <pre><code className="language-js">
+{'{'}
+  ...
+  title: "Example Markdown File"
+  ...
+}</code></pre>
                   </div>
                 </div>
               </div>
@@ -512,24 +404,19 @@ Lorem ipsum #tag1 #tag2 #tag3</code></pre>
                   role="tabpanel" tabIndex="0" data-headlessui-state="selected"
                   aria-labelledby="headlessui-tabs-tab-:r13:">
                   <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-markdown" style={{whiteSpace: "pre"}}><span className="token front-matter-block punctuation">---</span><span className="token front-matter-block">
-</span><span className="token front-matter-block"></span><span className="token front-matter-block front-matter yaml language-yaml">title: My first blog post
-</span><span className="token front-matter-block front-matter yaml language-yaml">date: 2021-01-01
-</span><span className="token front-matter-block front-matter yaml language-yaml">tags: [a, b, c]
-</span><span className="token front-matter-block front-matter yaml language-yaml">author: John Doe</span><span className="token front-matter-block">
-</span><span className="token front-matter-block"></span><span className="token front-matter-block punctuation">---</span><span className="">
-</span>
-<span className=""></span><span className="token title important punctuation">#</span><span className="token title important"> My first blog post</span><span className="">
-</span>
+                    <pre><code className="language-markdown">---
+title: My first blog post
+date: 2021-01-01
+tags: [a, b, c]
+author: John Doe
+---
+
+# My first blog post
+
 This is my first blog post.
-I'm using MarkdownDB to manage my blog posts.
-                </code></pre>
+I'm using MarkdownDB to manage my blog posts.</code></pre>
                   </div>
-                </div><span id="headlessui-tabs-panel-:r17:" role="tabpanel" tabIndex="-1"
-                  aria-labelledby="headlessui-tabs-tab-:r14:" style={{position: "fixed" , top: "1px" , left: "1px" ,
-                  width: "1px" , height: "0px" , padding: "0px" , margin: "-1px" , overflow: "hidden" ,
-                  clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" , borderWidth: "0px" }}></span><span
+                </div><span
                   id="headlessui-tabs-panel-:r18:" role="tabpanel" tabIndex="-1"
                   aria-labelledby="headlessui-tabs-tab-:r15:" style={{position: "fixed" , top: "1px" , left: "1px" ,
                   width: "1px" , height: "0px" , padding: "0px" , margin: "-1px" , overflow: "hidden" ,
@@ -544,41 +431,7 @@ I'm using MarkdownDB to manage my blog posts.
             <p className="mt-2 text-sm text-gray-500">Use the npm `mddb` package to index Markdown files into an SQLite
               database. This will create a `markdown.db` file in the current directory.</p>
           </div>
-          <div className="flex-auto lg:col-span-7 xl:col-span-8"><button type="button" aria-hidden="true"
-              style={{position: "fixed" , top: "1px" , left: "1px" , width: "1px" , height: "0px" , padding: "0px" ,
-              margin: "-1px" , overflow: "hidden" , clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" ,
-              borderWidth: "0px" }}></button>
-            <div className="rounded-md bg-neutral-50 border border-1 border-neutral-100">
-              <div aria-label="Select file to view" className="flex flex-nowrap overflow-x-auto" role="tablist"
-                aria-orientation="horizontal">
-                <div
-                  className="flex h-10 items-center space-x-1.5 border-b border-neutral-100 px-4 dark:border-neutral-900">
-                  <span className="h-3 w-3 rounded-full bg-red-400 dark:bg-slate-600"></span><span
-                    className="h-3 w-3 rounded-full bg-amber-400 dark:bg-slate-600"></span><span
-                    className="h-3 w-3 rounded-full bg-green-400 dark:bg-slate-600"></span></div>
-                <div className="grow border-b border-neutral-100 dark:border-neutral-900"></div>
-              </div>
-              <div className="max-h-[600px] overflow-y-hidden">
-                <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:r19:"
-                  role="tabpanel" tabIndex="0" data-headlessui-state="selected">
-                  <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre className="prismjs"><code className="language-bash" style={{whiteSpace: "pre"}}><span className="token comment"># npx mddb &lt;path-to-folder-with-your-md-files&gt;</span><span className="">
-</span>npx mddb ./blog</code></pre>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">
-          <div className="mt-6 lg:col-span-5 lg:mt-0 xl:col-span-4">
-            <h3 className="text-lg font-medium text-gray-900">Query your files with SQL...</h3>
-            <p className="mt-2 text-sm text-gray-500">E.g. get all the files with with tag `a`.</p>
-          </div>
-          <div className="flex-auto lg:col-span-7 xl:col-span-8"><button type="button" aria-hidden="true"
-              style={{position: "fixed" , top: "1px" , left: "1px" , width: "1px" , height: "0px" , padding: "0px" ,
-              margin: "-1px" , overflow: "hidden" , clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" ,
-              borderWidth: "0px" }}></button>
+          <div className="flex-auto lg:col-span-7 xl:col-span-8">
             <div className="rounded-md bg-neutral-50 border border-1 border-neutral-100">
               <div aria-label="Select file to view" className="flex flex-nowrap overflow-x-auto" role="tablist"
                 aria-orientation="horizontal">
@@ -593,11 +446,10 @@ I'm using MarkdownDB to manage my blog posts.
                 <div className="flex overflow-y-hidden focus:outline-none" id="headlessui-tabs-panel-:r1a:"
                   role="tabpanel" tabIndex="0" data-headlessui-state="selected">
                   <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-sql" style={{whiteSpace: "pre"}}><span className="token keyword">SELECT</span><span className=""> files</span><span className="token punctuation">.</span><span className="token operator">*</span><span className="">
-</span><span className=""></span><span className="token keyword">FROM</span><span className=""> files
-</span><span className=""></span><span className="token keyword">INNER</span><span className=""> </span><span className="token keyword">JOIN</span><span className=""> file_tags </span><span className="token keyword">ON</span><span className=""> files</span><span className="token punctuation">.</span><span className="">_id </span><span className="token operator">=</span><span className=""> file_tags</span><span className="token punctuation">.</span><span className="token keyword">file</span><span className="">
-</span><span className=""></span><span className="token keyword">WHERE</span><span className=""> file_tags</span><span className="token punctuation">.</span><span className="">tag </span><span className="token operator">=</span><span className=""> </span><span className="token string">'a'</span></code></pre>
+                    <pre><code className="language-sql">SELECT files.*
+FROM files
+INNER JOIN file_tags ON files._id = file_tags.file
+WHERE file_tags.tag = 'a'</code></pre>
                   </div>
                 </div>
               </div>
@@ -640,52 +492,48 @@ I'm using MarkdownDB to manage my blog posts.
                   role="tabpanel" tabIndex="0" data-headlessui-state="selected"
                   aria-labelledby="headlessui-tabs-tab-:r1b:">
                   <div className="w-full overflow-x-auto bg-white text-sm p-3">
-                    <pre
-                      className="prismjs"><code className="language-js" style={{whiteSpace: "pre"}}><span className="token comment">// Next.js example</span><span className="">
-</span><span className=""></span><span className="token keyword">import</span><span className=""> React </span><span className="token keyword">from</span><span className=""> </span><span className="token string">"react"</span><span className="token punctuation">;</span><span className="">
-</span><span className=""></span><span className="token keyword">import</span><span className=""> clientPromise </span><span className="token keyword">from</span><span className=""> </span><span className="token string">"@/lib/mddb.mjs"</span><span className="token punctuation">;</span><span className="">
-</span>
+                    <pre><code className="language-js">// Next.js example
+import React from "react";
+import clientPromise from "@/lib/mddb.mjs";
 
-<span className=""></span><span className="token keyword">export</span><span className=""> </span><span className="token keyword">default</span><span className=""> </span><span className="token keyword">function</span><span className=""> </span><span className="token function">Blog</span><span className="token punctuation">(</span><span className="token parameter punctuation">{'{'}</span><span className="token parameter"> blogs </span><span className="token parameter punctuation">}</span><span className="token punctuation">)</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">    </span><span className="token keyword">return</span><span className=""> </span><span className="token punctuation">(</span><span className="">
-</span><span className="">        </span><span className="token operator">&lt;</span><span className="">div</span><span className="token operator">&gt;</span><span className="">
-</span><span className="">            </span><span className="token operator">&lt;</span><span className="">h1</span><span className="token operator">&gt;</span><span className="">Blog</span><span className="token operator">&lt;</span><span className="token operator">/</span><span className="">h1</span><span className="token operator">&gt;</span><span className="">
-</span><span className="">            </span><span className="token operator">&lt;</span><span className="">ul</span><span className="token operator">&gt;</span><span className="">
-</span><span className="">                </span><span className="token punctuation">{'{'}</span><span className="">blogs</span><span className="token punctuation">.</span><span className="token function">map</span><span className="token punctuation">(</span><span className="token punctuation">(</span><span className="token parameter">blog</span><span className="token punctuation">)</span><span className=""> </span><span className="token operator">=&gt;</span><span className=""> </span><span className="token punctuation">(</span><span className="">
-</span><span className="">                    </span><span className="token operator">&lt;</span><span className="">li key</span><span className="token operator">=</span><span className="token punctuation">{'{'}</span><span className="">blog</span><span className="token punctuation">.</span><span className="">id</span><span className="token punctuation">}</span><span className="token operator">&gt;</span><span className="">
-</span><span className="">                        </span><span className="token operator">&lt;</span><span className="">a href</span><span className="token operator">=</span><span className="token punctuation">{'{'}</span><span className="">blog</span><span className="token punctuation">.</span><span className="">url_path</span><span className="token punctuation">}</span><span className="token operator">&gt;</span><span className="token punctuation">{'{'}</span><span className="">blog</span><span className="token punctuation">.</span><span className="">title</span><span className="token punctuation">}</span><span className="token operator">&lt;</span><span className="token operator">/</span><span className="">a</span><span className="token operator">&gt;</span><span className="">
-</span><span className="">                    </span><span className="token operator">&lt;</span><span className="token operator">/</span><span className="">li</span><span className="token operator">&gt;</span><span className="">
-</span><span className="">                </span><span className="token punctuation">)</span><span className="token punctuation">)</span><span className="token punctuation">}</span><span className="">
-</span><span className="">            </span><span className="token operator">&lt;</span><span className="token operator">/</span><span className="">ul</span><span className="token operator">&gt;</span><span className="">
-</span><span className="">        </span><span className="token operator">&lt;</span><span className="token operator">/</span><span className="">div</span><span className="token operator">&gt;</span><span className="">
-</span><span className="">    </span><span className="token punctuation">)</span><span className="token punctuation">;</span><span className="">
-</span><span className=""></span><span className="token punctuation">}</span><span className="">
-</span>
-<span className=""></span><span className="token keyword">export</span><span className=""> </span><span className="token keyword">const</span><span className=""> </span><span className="token function-variable function">getStaticProps</span><span className=""> </span><span className="token operator">=</span><span className=""> </span><span className="token keyword">async</span><span className=""> </span><span className="token punctuation">(</span><span className="token punctuation">)</span><span className=""> </span><span className="token operator">=&gt;</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">    </span><span className="token keyword">const</span><span className=""> mddb </span><span className="token operator">=</span><span className=""> </span><span className="token keyword">await</span><span className=""> clientPromise</span><span className="token punctuation">;</span><span className="">
-</span><span className="">    </span><span className="token comment">// get all files that are not marked as draft in the frontmatter</span><span className="">
-</span><span className="">    </span><span className="token keyword">const</span><span className=""> blogFiles </span><span className="token operator">=</span><span className=""> </span><span className="token keyword">await</span><span className=""> mddb</span><span className="token punctuation">.</span><span className="token function">getFiles</span><span className="token punctuation">(</span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">        </span><span className="token literal-property property">frontmatter</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">            </span><span className="token literal-property property">draft</span><span className="token operator">:</span><span className=""> </span><span className="token boolean">false</span><span className="">
-</span><span className="">        </span><span className="token punctuation">}</span><span className="">
-</span><span className="">    </span><span className="token punctuation">}</span><span className="token punctuation">)</span><span className="token punctuation">;</span><span className="">
-</span>
-<span className="">    </span><span className="token keyword">const</span><span className=""> blogsList </span><span className="token operator">=</span><span className=""> blogFiles</span><span className="token punctuation">.</span><span className="token function">map</span><span className="token punctuation">(</span><span className="token punctuation">(</span><span className="token parameter punctuation">{'{'}</span><span className="token parameter"> metadata</span><span className="token parameter punctuation">,</span><span className="token parameter"> url_path </span><span className="token parameter punctuation">}</span><span className="token punctuation">)</span><span className=""> </span><span className="token operator">=&gt;</span><span className=""> </span><span className="token punctuation">(</span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">        </span><span className="token operator">...</span><span className="">metadata</span><span className="token punctuation">,</span><span className="">
-</span><span className="">        url_path</span><span className="token punctuation">,</span><span className="">
-</span><span className="">    </span><span className="token punctuation">}</span><span className="token punctuation">)</span><span className="token punctuation">)</span><span className="token punctuation">;</span><span className="">
-</span>
-<span className="">    </span><span className="token keyword">return</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">        </span><span className="token literal-property property">props</span><span className="token operator">:</span><span className=""> </span><span className="token punctuation">{'{'}</span><span className="">
-</span><span className="">            </span><span className="token literal-property property">blogs</span><span className="token operator">:</span><span className=""> blogsList</span><span className="token punctuation">,</span><span className="">
-</span><span className="">        </span><span className="token punctuation">}</span><span className="token punctuation">,</span><span className="">
-</span><span className="">    </span><span className="token punctuation">}</span><span className="token punctuation">;</span><span className="">
-</span><span className=""></span><span className="token punctuation">}</span><span className="token punctuation">;</span></code></pre>
+
+export default function Blog({'{'} blogs }) {'{'}
+    return (
+        &lt;div&gt;
+            &lt;h1&gt;Blog&lt;/h1&gt;
+            &lt;ul&gt;
+                {'{'}blogs.map((blog) =&gt; (
+                    &lt;li key={'{'}blog.id}&gt;
+                        &lt;a href={'{'}blog.url_path}&gt;{'{'}blog.title}&lt;/a&gt;
+                    &lt;/li&gt;
+                ))}
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    );
+}
+
+export const getStaticProps = async () =&gt; {'{'}
+    const mddb = await clientPromise;
+    // get all files that are not marked as draft in the frontmatter
+    const blogFiles = await mddb.getFiles({'{'}
+        frontmatter: {'{'}
+            draft: false
+        }
+    });
+
+    const blogsList = blogFiles.map(({'{'} metadata, url_path }) =&gt; ({'{'}
+        ...metadata,
+        url_path,
+    }));
+
+    return {'{'}
+        props: {'{'}
+            blogs: blogsList,
+        },
+    };
+};</code></pre>
                   </div>
-                </div><span id="headlessui-tabs-panel-:r1e:" role="tabpanel" tabIndex="-1"
-                  aria-labelledby="headlessui-tabs-tab-:r1c:" style={{position: "fixed" , top: "1px" , left: "1px" ,
-                  width: "1px" , height: "0px" , padding: "0px" , margin: "-1px" , overflow: "hidden" ,
-                  clip: "rect(0px, 0px, 0px, 0px)" , whiteSpace: "nowrap" , borderWidth: "0px" }}></span>
+                </div>
               </div>
             </div>
           </div>
