@@ -34,8 +34,61 @@ Examples:
 Options:
   --watch     Watch for changes and keep the process running
   --exec      Execute a JS module (path to .mjs/.js or - for stdin)
+  --wait-db-ms <ms>  (exec only) Wait until the db file has been idle for the given ms
   -h, --help  Show this help message
 `);
+};
+
+const parseExecArgs = (execArgs) => {
+  const args = [...execArgs];
+  let waitDbMs;
+
+  while (args.length > 0) {
+    const arg = args.shift();
+    if (arg === "--wait-db-ms") {
+      const value = args.shift();
+      if (value === undefined) {
+        console.error("Missing value after --wait-db-ms");
+        process.exit(1);
+      }
+      const parsed = Number(value);
+      if (!Number.isFinite(parsed) || parsed < 0) {
+        console.error(`Invalid value for --wait-db-ms: ${value}`);
+        process.exit(1);
+      }
+      waitDbMs = parsed;
+    } else {
+      return { waitDbMs, scriptPath: arg, scriptArgs: args };
+    }
+  }
+
+  console.error("Missing path after --exec");
+  process.exit(1);
+};
+
+const waitForDbStable = async (dbFilePath, waitDbMs) => {
+  if (!waitDbMs) {
+    return;
+  }
+
+  const resolvedDbPath = path.resolve(dbFilePath);
+  for (;;) {
+    let stats;
+    try {
+      stats = fs.statSync(resolvedDbPath);
+    } catch (error) {
+      if (error?.code === "ENOENT") {
+        return;
+      }
+      throw error;
+    }
+    const ageMs = Date.now() - stats.mtimeMs;
+    if (ageMs >= waitDbMs) {
+      return;
+    }
+    const sleepMs = Math.min(waitDbMs - ageMs, 250);
+    await new Promise((resolve) => setTimeout(resolve, sleepMs));
+  }
 };
 
 if (showHelp) {
@@ -44,12 +97,11 @@ if (showHelp) {
 }
 
 if (args[0] === "--exec") {
-  const execScriptPath = args[1];
-  if (!execScriptPath) {
-    console.error("Missing path after --exec");
-    process.exit(1);
-  }
-  const execScriptArgs = args.slice(2);
+  const {
+    waitDbMs,
+    scriptPath: execScriptPath,
+    scriptArgs: execScriptArgs,
+  } = parseExecArgs(args.slice(1));
   const resolvedExecPath =
     execScriptPath === "-"
       ? (() => {
@@ -66,6 +118,7 @@ if (args[0] === "--exec") {
     console.error(`Exec script not found: ${resolvedExecPath}`);
     process.exit(1);
   }
+  await waitForDbStable(dbPath, waitDbMs);
   const status = runExecScript(resolvedExecPath, execScriptArgs);
   process.exit(status);
 }

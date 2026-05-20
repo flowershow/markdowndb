@@ -8,7 +8,16 @@ import remarkWikiLink from "@portaljs/remark-wiki-link";
 import { Root } from "remark-parse/lib";
 import { MetaData, Task } from "./schema";
 
-export function parseFile(source: string, options?: ParsingOptions) {
+export interface ParsedFile {
+  ast: Root;
+  metadata: MetaData;
+  links: WikiLink[];
+}
+
+export function parseFile(
+  source: string,
+  options?: ParsingOptions
+): ParsedFile {
   // Metadata
   const { data: metadata } = matter(source);
 
@@ -37,7 +46,7 @@ export function parseFile(source: string, options?: ParsingOptions) {
 }
 
 // Exported for testing
-export function processAST(source: string, options?: ParsingOptions) {
+export function processAST(source: string, options?: ParsingOptions): Root {
   const userRemarkPlugins: Array<Plugin> = options?.remarkPlugins || [];
 
   const processor = unified()
@@ -51,7 +60,7 @@ export function processAST(source: string, options?: ParsingOptions) {
       ...(userRemarkPlugins || []),
     ]);
 
-  const ast = processor.parse(source);
+  const ast = processor.parse(source) as Root;
   return ast;
 }
 

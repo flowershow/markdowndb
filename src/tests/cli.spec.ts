@@ -105,6 +105,53 @@ await mddb.db.destroy();
     }
   });
 
+  test("waits for the db to settle before exec", () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "mddb-cli-exec-"));
+    const tmpScript = path.join(tmpDir, "exec.mjs");
+    fs.writeFileSync(tmpScript, execScript(false));
+
+    try {
+      const sampleDir = path.resolve("examples", "basic-example", "projects");
+      const build = spawnSync(process.execPath, [cliPath, sampleDir], {
+        encoding: "utf8",
+        cwd: tmpDir,
+      });
+      expect(build.status).toBe(0);
+
+      const dbPath = path.join(tmpDir, "markdown.db");
+
+      const measureExec = (extraArgs: string[]) => {
+        const now = new Date();
+        fs.utimesSync(dbPath, now, now);
+        const start = Date.now();
+        const result = spawnSync(
+          process.execPath,
+          [cliPath, "--exec", ...extraArgs, tmpScript, sampleDir],
+          {
+            encoding: "utf8",
+            cwd: tmpDir,
+          }
+        );
+        return { duration: Date.now() - start, result };
+      };
+
+      const baseline = measureExec([]);
+      expect(baseline.result.status).toBe(0);
+      expect(baseline.result.stdout.trim()).toBe("ok");
+
+      const waitMs = 600;
+      const waited = measureExec(["--wait-db-ms", String(waitMs)]);
+      expect(waited.result.status).toBe(0);
+      expect(waited.result.stdout.trim()).toBe("ok");
+
+      // The database age includes CLI startup time after utimesSync(), so the
+      // waited run is not guaranteed to exceed the baseline by waitMs.
+      expect(waited.duration).toBeGreaterThanOrEqual(waitMs - 100);
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+
   test("executes a module from stdin with mddb available", () => {
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "mddb-cli-exec-"));
 
