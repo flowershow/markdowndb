@@ -1,6 +1,7 @@
 {
   "title": "MarkdownDB",
   "description": "The missing interface from your Markdown files to a blog/digital garden/notion alternative and more.",
+  "theme": "lessflowery",
   "analytics": "G-4BEZJF9CLJ",
   "showSidebar": false,
   "showToc": false,
