@@ -177,10 +177,12 @@ client.indexFolder({
 <div class="mx-auto max-w-6xl py-16 px-6 lg:px-8">
   <div class="text-center max-w-3xl mx-auto">
     <p class="text-base font-semibold text-indigo-600">Our vision</p>
-    <h2 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Unified Content Management</h2>
+    <h2 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Your content, your database</h2>
     <p class="mt-6 text-lg leading-8 text-gray-600">
-      Imagine a world where Markdown isn't just text &ndash; it's a source of structured and unstructured data. With MarkdownDB, we aim to balance the simplicity and accessibility of writing in Markdown with the <strong>ability to query your collection of markdown files like a database</strong> &ndash; think get me all files "with type Blog" or "all documents created in the last week" or "all documents with 'hello world' in the title" or find "all tasks (i.e. <code>- [ ]</code>) in all documents".
+      Markdown files already contain structured data &mdash; frontmatter fields, tags, links, tasks. Most tools ignore it. MarkdownDB extracts it, indexes it, and makes it queryable, without touching your files or locking you into a platform.
     </p>
+    <p class="mt-4 text-lg font-medium text-gray-900">Plain text in. Rich queryable data out.</p>
+    <p class="mt-4 text-sm text-gray-500">Learn more about the <a href="https://markdownisawesome.com/markdown-database" class="text-indigo-600 hover:text-indigo-500">Markdown Database Pattern &rarr;</a></p>
   </div>
 </div>
 
