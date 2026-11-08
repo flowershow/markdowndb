@@ -61,12 +61,17 @@ export function resolve(specifier, context, defaultResolve) {
 
   let spawnArgs: string[];
   if (nodeMajorVersion >= 18) {
-    // Node 18+ supports --import flag with register()
-    const registerSource = `import { register } from "node:module";
+    // Prefer synchronous hooks when available, retaining older Node support.
+    const registerSource = `import * as module from "node:module";
 import { pathToFileURL } from "node:url";
-register(${JSON.stringify(loaderPath)}, pathToFileURL(${JSON.stringify(
+import { resolve } from ${JSON.stringify(pathToFileURL(loaderPath).href)};
+if (typeof module.registerHooks === "function") {
+  module.registerHooks({ resolve });
+} else {
+  module.register(${JSON.stringify(loaderPath)}, pathToFileURL(${JSON.stringify(
       baseUrl
     )}));
+}
 `;
     const registerUrl = `data:text/javascript,${encodeURIComponent(
       registerSource
