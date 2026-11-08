@@ -100,6 +100,7 @@ await mddb.db.destroy();
 
       expect(result.status).toBe(0);
       expect(result.stdout.trim()).toBe("ok:foo,bar");
+      expect(result.stderr).not.toContain("[DEP0205]");
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true });
     }
@@ -179,6 +180,7 @@ await mddb.db.destroy();
 
       expect(result.status).toBe(0);
       expect(result.stdout.trim()).toBe("ok");
+      expect(result.stderr).not.toContain("[DEP0205]");
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true });
     }
