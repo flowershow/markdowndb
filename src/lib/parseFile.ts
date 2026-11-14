@@ -124,6 +124,24 @@ export interface WikiLink {
   internal: boolean; // default true (external means http etc - not inside the contentbase)
 }
 
+// A URL with a scheme (`https:`, `mailto:`, `tel:`, ...) points outside the
+// content base, so it is kept as is.
+const URL_SCHEME_REGEX = /^[a-z][a-z0-9+.-]*:/i;
+
+const isExternalUrl = (url: string) => URL_SCHEME_REGEX.test(url);
+
+// Resolve a link target against the file it comes from:
+// - external URLs are returned unchanged
+// - `#anchor` points into the source file itself
+// - `/abs/path` is relative to the content base root
+// - anything else is relative to the source file's directory
+const resolveLinkPath = (url: string, from: string, directory: string) => {
+  if (isExternalUrl(url)) return url;
+  if (url.startsWith("#")) return from + url;
+  if (url.startsWith("/")) return url.slice(1);
+  return path.posix.join(directory, url);
+};
+
 export const extractWikiLinks = (ast: Root, options?: ParsingOptions) => {
   let wikiLinks: WikiLink[] = [];
   const from = options?.from || "";
@@ -132,29 +150,22 @@ export const extractWikiLinks = (ast: Root, options?: ParsingOptions) => {
 
   const extractors: LinkExtractors = {
     link: (node: any) => {
-      const to = !node.url.startsWith("http")
-        ? node.url.startsWith("/")
-          ? node.url.slice(1)
-          : path.posix.join(directory, node.url)
-        : node.url;
       return {
         from: from,
-        to: to,
+        to: resolveLinkPath(node.url, from, directory),
         toRaw: node.url,
         text: node.children?.[0]?.value || "",
         embed: false,
-        internal: !node.url.startsWith("http"),
+        internal: !isExternalUrl(node.url),
       };
     },
     image: (node: any) => ({
       from: from,
-      to: node.url.startsWith("/")
-        ? node.url.slice(1)
-        : path.posix.join(directory, node.url),
+      to: resolveLinkPath(node.url, from, directory),
       toRaw: node.url,
       text: node.alt || "",
       embed: true,
-      internal: !node.url.startsWith("http"),
+      internal: !isExternalUrl(node.url),
     }),
     wikiLink: (node) => {
       const linkType = node.data.isEmbed ? "embed" : "normal";
@@ -171,19 +182,13 @@ export const extractWikiLinks = (ast: Root, options?: ParsingOptions) => {
         linkSrc = node.data.permalink;
         text = node.children?.[0]?.value || "";
       }
-      const to = !linkSrc.startsWith("http")
-        ? linkSrc.startsWith("/")
-          ? linkSrc.slice(1)
-          : path.posix.join(directory, linkSrc)
-        : linkSrc;
-
       return {
         from: from,
-        to: to,
+        to: resolveLinkPath(linkSrc, from, directory),
         toRaw: linkSrc,
         text,
         embed: linkType === "embed",
-        internal: !linkSrc.startsWith("http"),
+        internal: !isExternalUrl(linkSrc),
       };
     },
     ...userExtractors,
