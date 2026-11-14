@@ -245,6 +245,69 @@ describe("extractWikiLinks", () => {
     expect(links).toEqual(expectedLinks);
   });
 
+  test("should keep links with other URL schemes as external", () => {
+    const links = getLinksFromSource(
+      "[mail](mailto:hi@example.com) [call](tel:+123456) [ftp](ftp://example.com/file.txt)"
+    );
+    const expectedLinks = [
+      {
+        from: "abc/foobar.md",
+        to: "mailto:hi@example.com",
+        toRaw: "mailto:hi@example.com",
+        text: "mail",
+        embed: false,
+        internal: false,
+      },
+      {
+        from: "abc/foobar.md",
+        to: "tel:+123456",
+        toRaw: "tel:+123456",
+        text: "call",
+        embed: false,
+        internal: false,
+      },
+      {
+        from: "abc/foobar.md",
+        to: "ftp://example.com/file.txt",
+        toRaw: "ftp://example.com/file.txt",
+        text: "ftp",
+        embed: false,
+        internal: false,
+      },
+    ];
+    expect(links).toEqual(expectedLinks);
+  });
+
+  test("should resolve anchor-only links to the source file", () => {
+    const links = getLinksFromSource("[top](#intro)");
+    const expectedLinks = [
+      {
+        from: "abc/foobar.md",
+        to: "abc/foobar.md#intro",
+        toRaw: "#intro",
+        text: "top",
+        embed: false,
+        internal: true,
+      },
+    ];
+    expect(links).toEqual(expectedLinks);
+  });
+
+  test("should not join external image URLs with the source directory", () => {
+    const links = getLinksFromSource("![logo](https://example.com/logo.png)");
+    const expectedLinks = [
+      {
+        from: "abc/foobar.md",
+        to: "https://example.com/logo.png",
+        toRaw: "https://example.com/logo.png",
+        text: "logo",
+        embed: true,
+        internal: false,
+      },
+    ];
+    expect(links).toEqual(expectedLinks);
+  });
+
   test("should return empty array if no links are found", () => {
     const links = getLinksFromSource("No links here");
     expect(links).toHaveLength(0);
